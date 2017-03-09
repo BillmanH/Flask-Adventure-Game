@@ -1,0 +1,23 @@
+<script id="text-window">
+/*
+Text for the botom of the screen
+*/
+	textWindow = d3.select("body").append("div").attr("id","text-window").html("You are standing in " + mapData["area"]["Description"])
+
+	textWindow.append("div").attr("id", "northText").html("") 	
+	textWindow.append("div").attr("id", "eastText").html("")
+	textWindow.append("div").attr("id", "southText").html("")
+	textWindow.append("div").attr("id", "westText").html("")
+	textWindow.append("div").attr("id", "eventLog").html("")
+
+function appendLog(newHtml){
+	var eventLog = d3.select("#eventLog").html()
+	var eventLog = eventLog + "<br>"
+	var eventLog = eventLog + "<p class='logger'>"
+	var eventLog = eventLog + newHtml
+	var eventLog = eventLog + "</p>"
+	d3.select("#eventLog").html(eventLog)
+}
+
+</script>
+

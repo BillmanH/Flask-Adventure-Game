@@ -1,0 +1,31 @@
+<script id="terrain-texture">
+
+function terrain_interactions(){
+	t = d3.selectAll(".terrain")
+
+	t.each(function(d, i) {
+		var x1=this.cx.baseVal.value
+		var y1=this.cy.baseVal.value
+		hyp = Math.sqrt((Math.pow(Math.abs(x1-char_x),2)) + (Math.pow(Math.abs(y1-char_y),2))) 
+    		if (hyp+d3.select(this).attr("size") <= charData["size"]) { //this is the collision event
+			//console.log ("coord = [",x1,y1,"]; hyp =", hyp )
+			//console.log (d3.select(this).attr("name"))
+			//console.log (d3.select(this).attr("affect"))	
+			switch (d3.select(this).attr("affect")) {
+				case "none":
+					break;
+				case "slow":
+					//console.log(d3.select(this).attr("affectText"))
+					charData["attributes"]["slowed"] = d3.select(this).attr("affectAmt")
+					appendLog(d3.select(this).attr("affectText").replace("***",charData["name"]))
+					break;
+				case "bump":
+					break;
+				default:
+					break;
+			}
+		}
+		})
+}
+
+</script>

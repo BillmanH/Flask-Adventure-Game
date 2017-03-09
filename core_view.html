@@ -1,0 +1,31 @@
+<html>
+<head>
+	<script type="text/javascript" src="{{ url_for('static', filename='d3.v3.min.js') }}"></script>
+</head>
+<body>
+	<script>
+	var charData = {{charData | safe}};
+		console.log(charData);
+	var currentLocation = charData['location']
+	var mapData = {{mapData | safe}};
+		console.log(mapData);
+	var terrData = {{terrData | safe}}
+		console.log(terrData)
+	</script>
+	<!- Simple Objects and Core Functionality ->
+	
+	{% include "game/home_screen.html" %}
+	{% include "game/text_window.html" %}
+	{% include "game/activity_map_boarder.html" %}
+	
+	<!- Objects that have complex interaction ->
+	
+	{% include "game/character.html" %}
+	{% include "game/terrain_textures.html" %}
+
+	<!- Scripts that govern interaction between objects->
+	
+	{% include "game/terrain_char_interaction.html" %}
+
+</body>
+</html>

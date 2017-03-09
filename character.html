@@ -1,0 +1,30 @@
+<script id="character">
+       // main charater object
+        var char_tooltip = d3.select("body")
+                .append("div")
+		.attr("id", "char-info")                
+		.style("position", "absolute")
+                .style("z-index", "10")
+                .style("visibility", "hidden")
+                .html(charData["name"] + "<br>" 
+			+ "x: " + String(char_x) 
+			+ " y: " + String(char_y)
+			+ ""); //add extra eliments to be displayed to the char tooltip
+
+        var playerChar = canvas.append("circle" )
+		.attr("id", "character")
+                .attr("cx", char_x)
+                .attr("cy", char_y)
+                .attr("r", charData["size"])
+		.style("z-index", "9")
+                .on("mouseover", function(){
+					return char_tooltip.style("visibility", "visible");
+					})
+                .on("mousemove", function(){
+					return char_tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
+					})
+                .on("mouseout", function(){
+					return char_tooltip.style("visibility", "hidden");
+					});
+
+</script>

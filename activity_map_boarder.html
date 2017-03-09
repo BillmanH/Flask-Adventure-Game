@@ -1,0 +1,154 @@
+<script id="activity_map_boarder">
+//activity_map_boarder
+
+//screens to advance to next area
+
+function svgclick() {
+/*
+for click events on the main canvas, not on individual objects. 
+Individual opbjects should have thier own click handler.
+*/
+// Ignore the click event if it was suppressed
+    	if (d3.event.defaultPrevented) return;
+
+// Extract the click location\    
+		    var point = d3.mouse(this), p = { x: point[0], y: point[1] };
+
+//moveRate is based on the speed and is modified by atributes:
+var moveRate = charData["speed"]
+if ("slowed" in charData["attributes"]){
+	console.log("slowed: ",charData["attributes"]["slowed"])
+	moveRate = 1
+	charData["attributes"]["slowed"] -= 1
+	if (charData["attributes"]["slowed"]<1){
+		delete charData["attributes"]["slowed"]
+	}	
+}
+ 
+//condition that recalculates char_x and char_y,  thus moving the character in a direction
+	if (p.x <= char_x  
+		&& Math.abs(p.x - char_x) > charData["size"] + 5 
+		&& p.y <= char_y
+        	&& Math.abs(p.y - char_y) > charData["size"] + 5)
+		 {
+		        char_x = char_x - moveRate
+		        char_y = char_y - moveRate
+		    }
+	else if (p.x <= char_x
+ 		&& Math.abs(p.y - char_y) <= charData["size"] + 5) 
+		{
+			char_x = char_x - moveRate
+		} 
+	else if (p.x <= char_x
+		&& Math.abs(p.x - char_x) > charData["size"] + 5
+		&& p.y >= char_y 
+		&& Math.abs(p.y - char_y) > charData["size"] + 5) 
+		{
+		        char_x = char_x - moveRate
+		        char_y = char_y + moveRate
+		    }
+	else if (p.y >= char_y 						//down
+		&& Math.abs(p.x - char_x) <= charData["size"] + 5)
+		 {
+		        char_y = char_y + moveRate
+		    }
+	else if (p.x >= char_x 							//down and right
+		&& Math.abs(p.x - char_x) > charData["size"] + 5
+		&& p.y >= char_y
+		&& Math.abs(p.y - char_y) > charData["size"] + 5)
+		 {
+			char_x = char_x + moveRate
+		        char_y = char_y + moveRate
+		    } 
+	else if (p.x >= char_x //right
+		&& Math.abs(p.y - char_y) <= charData["size"] + 5)
+		 {
+		        char_x = char_x + moveRate
+		    }
+	else if (p.x >= char_x 							//up and right
+		&& Math.abs(p.x - char_x) > charData["size"] + 5
+		&& p.y <= char_y
+		&& Math.abs(p.y - char_y) > charData["size"] + 5)
+		 {
+			char_x = char_x + moveRate
+			char_y = char_y - moveRate
+		    } 
+	else if (p.y <= char_y						 //up
+		&& Math.abs(p.x - char_x) <= charData["size"] + 5)
+		 {
+			char_y = char_y - moveRate
+		    }
+
+var boarderText = "to the north you can see " + mapData["NArea"]["Description"] + ";" +
+                                "<form action='/gamecontinue' method='post' id='northForm'>" +
+                                "<input class='charDataHolder' type='hidden' name='charData' value='placeholder'>"+
+                                "<button type='submit' value='submit'>Save and progress to this region</button>" +
+                                "</form>"
+
+//constraints and transition to new area
+		    if (char_y < 50) {//north
+				charData['location'] = String(mapData['NArea']['x'])+":"+String(mapData['NArea']['y'])
+				d3.select("#northText").html("to the north you can see " + mapData["NArea"]["Description"] + ";" +
+                                "<form action='/gamecontinue' method='post' id='northForm'>" +
+				"<input class='charDataHolder' type='hidden' name='charData' value='placeholder'>"+
+                                "<button type='submit' value='submit'>Save and progress to this region</button>" +
+                                "</form>");
+				d3.select(".charDataHolder").attr("value",JSON.stringify(charData));
+			}
+		    if (char_y > 50) {
+		    		d3.select("#northText").html("")
+				charData['location'] = currentLocation
+			}
+		    if (char_y > height-50) {//south
+                     		charData['location'] = String(mapData['SArea']['x'])+":"+String(mapData['SArea']['y'])        
+		    		d3.select("#southText").html("to the south you can see " + 
+				mapData["SArea"]["Description"] + "; " +
+				"<form action='/gamecontinue' method='post'>" +
+				"<input class='charDataHolder' type='hidden' name='charData' value='placeholder'>"+    				
+				"<button type='submit' value=charData>Save and progress to this region</button>" +
+				"</form>")
+                                d3.select(".charDataHolder").attr("value",JSON.stringify(charData)) 
+			}
+		    if (char_y < height - 50) {
+		    		d3.select("#southText").html("")
+				charData['location'] = currentLocation
+			}
+		    if (char_x > width - 50) {//east
+                                charData['location'] = String(mapData['EArea']['x'])+":"+String(mapData['EArea']['y'])        
+				d3.select("#eastText").html("to the east you can see " + mapData["EArea"]["Description"] + "; " +
+                                "<form action='/gamecontinue' method='post'>" +
+                                "<input class='charDataHolder' type='hidden' name='charData' value='placeholder'>"+
+				"<button type='submit' value=charData>Save and progress to this region</button>" +
+                                "</form>")
+                                d3.select(".charDataHolder").attr("value",JSON.stringify(charData)) 
+		    	}
+		    if (char_x < width - 50) {
+		    		d3.select("#eastText").html("")
+				charData['location'] = currentLocation
+			}	
+		    if (char_x < 50) {//west
+                                charData['location'] = String(mapData['WArea']['x'])+":"+String(mapData['WArea']['y'])        
+				d3.select("#westText").html("to the west you can see " + mapData["WArea"]["Description"] + "; " +
+                                "<form action='/gamecontinue' method='post'>" +
+                                "<input class='charDataHolder' type='hidden' name='charData' value='placeholder'>"+				
+				"<button type='submit' value=charData>Save and progress to this region</button>" +
+                                "</form>")
+                                d3.select(".charDataHolder").attr("value",JSON.stringify(charData)) 
+		    	}
+		    if (char_x > 50) {
+		    	d3.select("#westText").html("")
+			charData['location'] = currentLocation
+			}
+/*
+Each object that reacts to player movement must have an update statement here. This also means that this <script> must come at the end, after all of the other 
+objects are present
+*/
+		playerChar.transition().attr("cx", char_x).attr("cy", char_y);
+                char_tooltip.html(charData["name"] + "<br>" + "x: " + String(char_x) + " y: " + String(char_y));
+		terrain_interactions()
+	}
+
+
+canvas.on("click", svgclick);
+
+</script>
