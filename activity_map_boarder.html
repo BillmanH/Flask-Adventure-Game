@@ -26,6 +26,8 @@ if ("slowed" in charData["attributes"]){
 }
  
 //condition that recalculates char_x and char_y,  thus moving the character in a direction
+	var prev_x = char_x
+	var prev_y = char_y
 	if (p.x <= char_x  
 		&& Math.abs(p.x - char_x) > charData["size"] + 5 
 		&& p.y <= char_y
@@ -143,9 +145,11 @@ var boarderText = "to the north you can see " + mapData["NArea"]["Description"] 
 Each object that reacts to player movement must have an update statement here. This also means that this <script> must come at the end, after all of the other 
 objects are present
 */
+		var drc = terrain_interactions(prev_x,prev_y)
+		char_x = drc[0]
+		char_y = drc[1]
 		playerChar.transition().attr("cx", char_x).attr("cy", char_y);
                 char_tooltip.html(charData["name"] + "<br>" + "x: " + String(char_x) + " y: " + String(char_y));
-		terrain_interactions()
 	}
 
 

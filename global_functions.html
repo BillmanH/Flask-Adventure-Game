@@ -1,0 +1,66 @@
+<script>
+// random coordinates, for placing objects. 
+
+function get_rnd_coord(){  //perhaps move to a globals template at some point? 
+        x = Math.floor(Math.random() * width) + 1;
+        y = Math.floor(Math.random() * height) + 1;
+        return [x,y]
+}
+
+
+function get_pos_neg(x,y){
+	var nx = 0,
+	 ny=0;
+
+	if(x<0){
+		nx = -1
+	} else {
+		nx =  1
+	}
+	if(y<0){
+		ny = -1
+	} else {
+		ny = 1
+	}
+	
+	return [nx,ny]
+}
+
+var FractionReduce = (function(){
+    //Euclid's Algorithm
+    var getGCD = function(n, d){
+        var numerator = (n<d)?n:d;
+        var denominator = (n<d)?d:n;        
+        var remainder = numerator;
+        var lastRemainder = numerator;
+
+        while (true){
+            lastRemainder = remainder;
+            remainder = denominator % numerator;
+            if (remainder === 0){
+                break;
+            }
+            denominator = numerator;
+            numerator = remainder;
+        }
+        if(lastRemainder){
+            return lastRemainder;
+        }
+    };
+
+    var reduce = function(n, d){
+        var gcd = getGCD(n, d);
+
+        return [n/gcd, d/gcd];
+    };
+
+    return {
+            getGCD:getGCD,
+            reduce:reduce
+           };
+
+}());
+
+
+
+</script>
