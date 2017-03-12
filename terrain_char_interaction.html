@@ -29,9 +29,7 @@ function terrain_interactions(prev_x,prev_y){
 					var vol = d3.select(this).attr("affectAmt")
 				       	var dir = get_pos_neg(dx,dy)
 					//playerChar.transition().attr("cx", 100).attr("cy", 100);
-					console.log("hyp= ",hyp)
-					console.log("dir= ",dir)
-					console.log("xy1= ",[x1,y1])
+					//console.log("dir= ",dir)
 					n_x = x1 + -1*(dir[0])*(vol+hyp)
 					n_y = y1 + -1*(dir[1])*(vol+hyp)
 					break;
