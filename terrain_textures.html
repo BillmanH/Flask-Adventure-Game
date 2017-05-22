@@ -26,152 +26,15 @@ for (item in mapData['area']['Terrain Textures']){
 		t.spawnOrigin_y = cord[1]
 		data.push(JSON.parse(JSON.stringify(t)))
 	}
-	//console.log("data= ",data)
 	switch(t['spread']){
-		case 'scatter':
-		for(i=0;i<=t['density'];i++){
-	        var elem = canvas.selectAll(t['name'])  
-        	        .data(data)
-                	        .enter()
-                        	.append("circle")
-   	                     .style('z-index',8)
-        	                .attr("cx",function(d){return d.spawnOrigin_x})
-                	        .attr("cy",function(d){return d.spawnOrigin_y})
-                        	.attr("affect",function(d){return d.affect})
-	                        .attr("affectText",function(d){return d.affectText})
-        	                .attr("affectAmt",function(d){return d.affectAmt})
-                	        .attr("name",function(d){return d.name})
-                        	.classed("terrain", true)
-	                        .attr("r",function(d){return d.size})
-        	                .style("fill",function(d){return d.hex})
-                	        .on("mouseover", function(d){
- 	                                return terrain_tooltip.style("visibility", "visible")
-      	                                        .html(d.name);
-                			                        })
-     	                       .on("mousemove", function(d){
-                                        return terrain_tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
-                                                .html(d.name);
-                                        })
- 		               .on("mouseout", function(){
-                                        return terrain_tooltip.style("visibility", "hidden");
-                                        });
-		}
-			break;
+		case "scatter":
+			{% include "game/terrain/scatter.js" %}	
+		break;
 		case "line":
-			var elem = canvas.selectAll(t['name'])
-				.data(data)
-				.enter()
-				.append('circle')
-	                             .style('z-index',8)
-                                .attr("cx",function(d){return d.spawnOrigin_x})
-                                .attr("cy",function(d){return d.spawnOrigin_y})
-                                .attr("affect",function(d){return d.affect})
-                                .attr("affectText",function(d){return d.affectText})
-                                .attr("affectAmt",function(d){return d.affectAmt})
-                                .attr("name",function(d){return d.name})
-                                .classed("terrain", true)
-                                .attr("r",function(d){return d.size})
-                                .style("fill",function(d){return d.hex})
-                                .on("mouseover", function(d){
-                                        return terrain_tooltip.style("visibility", "visible")
-                                                .html(d.name);
-                                                                })
-                               .on("mousemove", function(d){
-                                        return terrain_tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
-                                                .html(d.name);
-                                        })
-                               .on("mouseout", function(){
-                                        return terrain_tooltip.style("visibility", "hidden");
-                                        });	
-		/*	growth = 1	
-			for(i=0;i<=t['density'];i++){
-				console.log('i= ',i,", growth=",growth)
-				d3.selectAll(t['name'])
-					.data(data)
-					.enter()
-					.append('circle')
-						.style('z-index',8)
-						.attr("cx",function(d){return d.spawnOrigin_x+growth})
-                                		.attr("cy",function(d){return d.spawnOrigin_y+growth})
-                                		.attr("affect",function(d){return d.affect})
-                                		.attr("affectText",function(d){return d.affectText})
-                                		.attr("affectAmt",function(d){return d.affectAmt})
-                                		.attr("name",function(d){return d.name})
-                                		.classed("terrain", true)
-                                		.attr("r",function(d){return d.size})
-                                		.style("fill",function(d){return d.hex})
-                                		.on("mouseover", function(d){
-                                        		return terrain_tooltip.style("visibility", "visible")
-                                                	.html(d.name);
-                                                                })
-                               			.on("mousemove", function(d){
-                                        		return terrain_tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
-                                                	.html(d.name);
-                                        			})
-                               			.on("mouseout", function(){
-                                        		return terrain_tooltip.style("visibility", "hidden");
-                                        			});  
-				growth++		
-			}*/
-		
-			break;
-		case "jitter":
-                var elem = canvas.selectAll(t['name'])  
-                        .data(data)
-                                .enter()
-                                .append("circle")
-                             .style('z-index',8)
-                                .attr("cx",function(d){return d.spawnOrigin_x})
-                                .attr("cy",function(d){return d.spawnOrigin_y})
-                                .attr("affect",function(d){return d.affect})
-                                .attr("affectText",function(d){return d.affectText})
-                                .attr("affectAmt",function(d){return d.affectAmt})
-                                .attr("name",function(d){return d.name})
-                                .classed("terrain", true)
-                                .attr("r",function(d){return d.size})
-                                .style("fill",function(d){return d.hex})
-                                .on("mouseover", function(d){
-                                        return terrain_tooltip.style("visibility", "visible")
-                                                .html(d.name);
-                                                                })
-                               .on("mousemove", function(d){
-                                        return terrain_tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
-                                                .html(d.name);
-                                        })
-                               .on("mouseout", function(){
-                                        return terrain_tooltip.style("visibility", "hidden");
-                                        });
+			{% include "game/terrain/line.js" %} 
 			break;
 		default:
 //Assumiming that if there is no spread type, just place it randomly, terrain['density'] is ignored
-			console.log('ERROR: a terrain item with no [spread] type was found. : ',t['name'],":",t['spread']);
-                var elem = canvas.selectAll(t['name'])  
-                        .data(data)
-                                .enter()
-                                .append("circle")
-                             .style('z-index',8)
-                                .attr("cx",function(d){return d.spawnOrigin_x})
-                                .attr("cy",function(d){return d.spawnOrigin_y})
-                                .attr("affect",function(d){return d.affect})
-                                .attr("affectText",function(d){return d.affectText})
-                                .attr("affectAmt",function(d){return d.affectAmt})
-                                .attr("name",function(d){return d.name})
-                                .classed("terrain", true)
-                                .attr("r",function(d){return d.size})
-                                .style("fill",function(d){return d.hex})
-                                .on("mouseover", function(d){
-                                        return terrain_tooltip.style("visibility", "visible")
-                                                .html(d.name);
-                                                                })
-                               .on("mousemove", function(d){
-                                        return terrain_tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
-                                                .html(d.name);
-                                        })
-                               .on("mouseout", function(){
-                                        return terrain_tooltip.style("visibility", "hidden");
-                                        });
 	}
 }
-
-
 </script>
