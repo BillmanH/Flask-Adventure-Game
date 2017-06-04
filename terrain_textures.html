@@ -28,11 +28,15 @@ for (item in mapData['area']['Terrain Textures']){
 	}
 	switch(t['spread']){
 		case "scatter":
+		{% if "scatter" in spreadTypes %}
 			{% include "game/terrain/scatter.js" %}	
+		{% endif %}
 		break;
 		case "line":
+		{% if "line" in spreadTypes %}
 			{% include "game/terrain/line.js" %} 
-			break;
+		{% endif %}
+		break;
 		default:
 //Assumiming that if there is no spread type, just place it randomly, terrain['density'] is ignored
 	}

@@ -15,15 +15,8 @@ Individual opbjects should have thier own click handler.
 		    var point = d3.mouse(this), p = { x: point[0], y: point[1] };
 
 //moveRate is based on the speed and is modified by atributes:
-var moveRate = charData["speed"]
-if ("slowed" in charData["attributes"]){
-	console.log("slowed: ",charData["attributes"]["slowed"])
-	moveRate = 1
-	charData["attributes"]["slowed"] -= 1
-	if (charData["attributes"]["slowed"]<1){
-		delete charData["attributes"]["slowed"]
-	}	
-}
+{% include "game/charModifiers/moveModifiers.js" %}
+
  
 //condition that recalculates char_x and char_y,  thus moving the character in a direction
 	var prev_x = char_x

@@ -8,6 +8,7 @@
 	{% include "game/GA_Tracking_Code.html" %}
 <body>
 	<script>
+	//adding global variables, for troubleshooting and access within various scripts
 	var charData = {{charData | safe}};
 		console.log(charData);
 	var currentLocation = charData['location']
@@ -15,6 +16,7 @@
 		console.log(mapData);
 	var terrData = {{terrData | safe}}
 		console.log(terrData)
+	var spreadTypes = {{spreadTypes | safe}}
 	</script>
 
 	<!- Simple Objects and Core Functionality ->

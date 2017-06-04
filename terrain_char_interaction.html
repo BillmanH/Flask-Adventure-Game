@@ -11,11 +11,10 @@ function terrain_interactions(prev_x,prev_y){
 		var hyp = Math.sqrt((Math.pow(Math.abs(x1-char_x),2)) + (Math.pow(Math.abs(y1-char_y),2))) 
 		var dx = x1 - prev_x
 		var dy = y1 - prev_y
-		//var n_x = char_x      // assumes coordinaces are the same as calculated before, unless changed by swich below.
-		//var n_y = char_y
-    		if (hyp <= d3.select(this).attr("size")+charData["size"]) { //this is the collision event
-			//console.log ("coord = [",x1,y1,"]; hyp =", hyp )
-			//console.log (d3.select(this).attr("name"))
+ 
+		if (hyp < d3.select(this).attr("size")+charData["size"]) { //this is the collision event
+			console.log ("coord = [",x1,y1,"]; hyp =", hyp )
+			console.log (d3.select(this).attr("name"))
 			//console.log (d3.select(this).attr("affect"))	
 			switch (d3.select(this).attr("affect")) {
 				case "none":
@@ -30,6 +29,7 @@ function terrain_interactions(prev_x,prev_y){
 				       	var dir = get_pos_neg(dx,dy)
 					//playerChar.transition().attr("cx", 100).attr("cy", 100);
 					//console.log("dir= ",dir)
+					appendLog(d3.select(this).attr("affectText").replace("***",charData["name"]))
 					n_x = x1 + -1*(dir[0])*(vol+hyp)
 					n_y = y1 + -1*(dir[1])*(vol+hyp)
 					break;
