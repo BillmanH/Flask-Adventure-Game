@@ -11,6 +11,38 @@
 			+ " y: " + String(char_y)
 			+ ""); //add extra eliments to be displayed to the char tooltip
 
+        var inventory = canvas.append("rect")    
+		.attr("x", 10)
+		.attr("y", 10)                
+		.attr("width", 10)
+		.attr("height", 10)
+		.attr("id", "inventory")                
+                .style("z-index", "10")
+                .style("visibility", "visible")
+	
+	function alighnCharacter() {
+		if ("arriveFrom" in charData) {
+			if (charData["arriveFrom"] == "North"){
+				char_x = width/2
+				char_y = height-55
+			}	
+			if (charData["arriveFrom"] == "South"){
+				char_x = width/2
+				char_y = 55
+			}
+			if (charData["arriveFrom"] == "East"){
+				char_x = 55
+				char_y = height/2
+			}	
+			if (charData["arriveFrom"] == "West"){
+				char_x = width-55
+				char_y = height/2
+			}	
+		}
+	}
+		
+	alighnCharacter(); //if character came from somewhere, charData[arriveFrom] will reset the origin
+
         var playerChar = canvas.append("circle" )
 		.attr("id", "character")
                 .attr("cx", char_x)
@@ -18,13 +50,15 @@
                 .attr("r", charData["size"])
 		.style("z-index", "9")
                 .on("mouseover", function(){
-					return char_tooltip.style("visibility", "visible");
+					char_tooltip.style("visibility", "visible");
 					})
                 .on("mousemove", function(){
-					return char_tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
-					})
+					char_tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
+				})
+				
                 .on("mouseout", function(){
-					return char_tooltip.style("visibility", "hidden");
+					char_tooltip.style("visibility", "hidden");
+					})
+                .on("click", function(){
 					});
-
 </script>

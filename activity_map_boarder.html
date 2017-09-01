@@ -88,6 +88,7 @@ var boarderText = "to the north you can see " + mapData["NArea"]["Description"] 
 				"<input class='charDataHolder' type='hidden' name='charData' value='placeholder'>"+
                                 "<button type='submit' value='submit'>Save and progress to this region</button>" +
                                 "</form>");
+				charData["arriveFrom"] = "North";
 				d3.select(".charDataHolder").attr("value",JSON.stringify(charData));
 			}
 		    if (char_y > 50) {
@@ -102,6 +103,7 @@ var boarderText = "to the north you can see " + mapData["NArea"]["Description"] 
 				"<input class='charDataHolder' type='hidden' name='charData' value='placeholder'>"+    				
 				"<button type='submit' value=charData>Save and progress to this region</button>" +
 				"</form>")
+				charData["arriveFrom"] = "South";
                                 d3.select(".charDataHolder").attr("value",JSON.stringify(charData)) 
 			}
 		    if (char_y < height - 50) {
@@ -115,6 +117,8 @@ var boarderText = "to the north you can see " + mapData["NArea"]["Description"] 
                                 "<input class='charDataHolder' type='hidden' name='charData' value='placeholder'>"+
 				"<button type='submit' value=charData>Save and progress to this region</button>" +
                                 "</form>")
+
+				charData["arriveFrom"] = "East";
                                 d3.select(".charDataHolder").attr("value",JSON.stringify(charData)) 
 		    	}
 		    if (char_x < width - 50) {
@@ -128,6 +132,8 @@ var boarderText = "to the north you can see " + mapData["NArea"]["Description"] 
                                 "<input class='charDataHolder' type='hidden' name='charData' value='placeholder'>"+				
 				"<button type='submit' value=charData>Save and progress to this region</button>" +
                                 "</form>")
+
+				charData["arriveFrom"] = "West";
                                 d3.select(".charDataHolder").attr("value",JSON.stringify(charData)) 
 		    	}
 		    if (char_x > 50) {
