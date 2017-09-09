@@ -8,11 +8,19 @@ function get_rnd_coord(){
 }
 
 d3.selection.prototype.moveToFront = function() {  
-						return this.each(function(){
-							this.parentNode.appendChild(this);
-							});
-						};
- 
+	return this.each(function(){	
+			this.parentNode.appendChild(this);
+		});				
+	};
+
+d3.selection.prototype.moveToBack = function() {  
+	return this.each(function() { 
+		var firstChild = this.parentNode.firstChild; 
+		if (firstChild) { 
+			this.parentNode.insertBefore(this, firstChild); 
+			}	 
+		});
+	}; 
 
 function get_pos_neg(x,y){
 	var nx = 0,
