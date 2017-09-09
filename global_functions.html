@@ -6,6 +6,12 @@ function get_rnd_coord(){
         y = Math.floor(Math.random() * height) + 1;
         return [x,y]
 }
+
+d3.selection.prototype.moveToFront = function() {  
+						return this.each(function(){
+							this.parentNode.appendChild(this);
+							});
+						};
  
 
 function get_pos_neg(x,y){

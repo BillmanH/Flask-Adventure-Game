@@ -148,6 +148,7 @@ objects are present
 		char_x = drc[0]
 		char_y = drc[1]
 		playerChar.transition().attr("cx", char_x).attr("cy", char_y);
+		playerChar.moveToFront()
                 char_tooltip.html(charData["name"] + "<br>" + "x: " + String(char_x) + " y: " + String(char_y));
 	}
 

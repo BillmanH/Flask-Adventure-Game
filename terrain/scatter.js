@@ -3,7 +3,7 @@ for(i=0;i<=t['density'];i++){
 			.data(data)
 			.enter()
 			.append("circle")
-			.style('z-index',8)
+			.style('z-index',-1)
 			.attr("cx",function(d){return d.spawnOrigin_x})
 			.attr("cy",function(d){return d.spawnOrigin_y})
 			.attr("affect",function(d){return d.affect})
