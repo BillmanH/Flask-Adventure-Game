@@ -1,0 +1,79 @@
+<html>
+<head>
+	<script type="text/javascript" src="{{ url_for('static', filename='d3.v3.min.js') }}"></script>
+	<link rel="stylesheet" href="{{ url_for('static', filename='mobile.css') }}" type="text/css" media="only screen and (max-width: 600px)"/>
+</head>
+<body>
+	<p>Adventure awaits!<br>as we are still in open beta, and because I haven't got paypal setup, I just need an email address to create a character</p>
+	<form>
+		<p>Enter an email address that we can connect to your account</p>
+		<input type="text">
+	        <p></p>
+		<input type="submit">
+	</form>
+</body>
+<script>
+
+var raceData = {{raceData| safe}};
+var classData = {{classData| safe}};
+var races = Object.keys(raceData)
+var classes = Object.keys(classData)
+
+var width = 960, height = 500;
+
+
+var svg = d3.select('body').append('svg')
+	.attr('width', width)
+	.attr('height', height);
+
+var raceButtons = svg.selectAll('.raceButtons')
+	.data(races)
+	.enter()
+	.append('g')
+ 
+raceButtons.append('rect')
+	.attr('x', 0)
+	.attr('y',function(d,i){return i*41})
+	.attr('height',40)
+	.attr('width',100)
+	.style('fill','blue')
+	.attr('class', 'button')
+	
+raceButtons.append("text")
+	.text(function(d){
+		return d
+		})
+	.attr('x',5)
+	.attr('y',function(d,i){return i*42+20})
+	.attr("font-size", "19px")
+	.attr("fill", "black")
+	.attr("font-family","sans-serif")
+
+
+var classButtons = svg.selectAll('.classButtons')
+	.data(classes)
+	.enter()
+	.append('g')
+ 
+classButtons.append('rect')
+	.attr('x', 250)
+	.attr('y',function(d,i){return i*41})
+	.attr('height',40)
+	.attr('width',100)
+	.style('fill','blue')
+	.attr('class', 'button')
+	
+classButtons.append("text")
+	.text(function(d){
+		return d
+		})
+	.attr('x',255)
+	.attr('y',function(d,i){return i*42+20})
+	.attr("font-size", "19px")
+	.attr("fill", "black")
+	.attr("font-family","sans-serif")
+
+
+
+</script>
+</html>
