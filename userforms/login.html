@@ -1,4 +1,6 @@
 <html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
 <head>
 	<script type="text/javascript" src="{{ url_for('static', filename='d3.v3.min.js') }}"></script>
 	<link rel="stylesheet" href="{{ url_for('static', filename='mobile.css') }}" type="text/css" media="only screen and (max-width: 600px)"/>
@@ -14,6 +16,7 @@
 </body>
 <script>
 
+var formData = {}
 var raceData = {{raceData| safe}};
 var classData = {{classData| safe}};
 var races = Object.keys(raceData)
@@ -21,7 +24,11 @@ var classes = Object.keys(classData)
 
 var width = 960, height = 500;
 
-
+function checFormCompletion(formData) {
+	if((formData.class != undefined)
+		&(formData.race != undefined))
+		{return true} else {return false}
+}
 var svg = d3.select('body').append('svg')
 	.attr('width', width)
 	.attr('height', height);
@@ -30,7 +37,18 @@ var raceButtons = svg.selectAll('.raceButtons')
 	.data(races)
 	.enter()
 	.append('g')
- 
+ 	.on("click", function(element){
+		formData['race'] = d3.select(this).select('text').text()
+		raceButtons.selectAll('rect')
+		.transition()
+		.style('fill','black');
+		raceButtons.selectAll('text')
+		.attr('fill','white');
+		d3.select(this).selectAll('rect')
+		.transition()
+		.style('fill','blue');
+	})	
+
 raceButtons.append('rect')
 	.attr('x', 0)
 	.attr('y',function(d,i){return i*41})
@@ -38,7 +56,7 @@ raceButtons.append('rect')
 	.attr('width',100)
 	.style('fill','blue')
 	.attr('class', 'button')
-	
+
 raceButtons.append("text")
 	.text(function(d){
 		return d
@@ -54,7 +72,19 @@ var classButtons = svg.selectAll('.classButtons')
 	.data(classes)
 	.enter()
 	.append('g')
- 
+  	.on("click", function(element){
+		formData['class'] = d3.select(this).select('text').text()
+		classButtons.selectAll('rect')
+		.transition()
+		.style('fill','black');
+		classButtons.selectAll('text')
+		.attr('fill','white');
+		d3.select(this).selectAll('rect')
+		.transition()
+		.style('fill','blue');
+	})	
+
+
 classButtons.append('rect')
 	.attr('x', 250)
 	.attr('y',function(d,i){return i*41})
