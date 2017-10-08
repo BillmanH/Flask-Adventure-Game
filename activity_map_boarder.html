@@ -74,22 +74,23 @@ Individual opbjects should have thier own click handler.
 			char_y = char_y - moveRate
 		    }
 
-var boarderText = "to the north you can see " + mapData["NArea"]["Description"] + ";" +
-                                "<form action='/gamecontinue' method='post' id='northForm'>" +
+var boarderText = "to the *nextArea* you can see *description*;" +
+                                "<form action='/gamecontinue' method='post' id='*nextForm*Form'>" +
                                 "<input class='charDataHolder' type='hidden' name='charData' value='placeholder'>"+
                                 "<button type='submit' value='submit'>Save and progress to this region</button>" +
                                 "</form>"
 
 //constraints and transition to new area
-		    if (char_y < 50) {//north
+		    if (char_y < 50) {//north				
 				charData['location'] = String(mapData['NArea']['x'])+":"+String(mapData['NArea']['y'])
-				d3.select("#northText").html("to the north you can see " + mapData["NArea"]["Description"] + ";" +
-                                "<form action='/gamecontinue' method='post' id='northForm'>" +
-				"<input class='charDataHolder' type='hidden' name='charData' value='placeholder'>"+
-                                "<button type='submit' value='submit'>Save and progress to this region</button>" +
-                                "</form>");
-				charData["arriveFrom"] = "North";
-				d3.select(".charDataHolder").attr("value",JSON.stringify(charData));
+				charData["arriveFrom"] = "North";		
+				d3.select("#northText")
+					.html(boarderText
+						.replace("*nextArea*",charData["arriveFrom"].toLowerCase())
+						.replace("*description*",mapData["NArea"]["Description"])
+						.replace("*nextForm*",charData["arriveFrom"].toLowerCase())
+					)
+			d3.select(".charDataHolder").attr("value",JSON.stringify(charData)) 
 			}
 		    if (char_y > 50) {
 		    		d3.select("#northText").html("")
@@ -97,29 +98,29 @@ var boarderText = "to the north you can see " + mapData["NArea"]["Description"] 
 			}
 		    if (char_y > height-50) {//south
                      		charData['location'] = String(mapData['SArea']['x'])+":"+String(mapData['SArea']['y'])        
-		    		d3.select("#southText").html("to the south you can see " + 
-				mapData["SArea"]["Description"] + "; " +
-				"<form action='/gamecontinue' method='post'>" +
-				"<input class='charDataHolder' type='hidden' name='charData' value='placeholder'>"+    				
-				"<button type='submit' value=charData>Save and progress to this region</button>" +
-				"</form>")
-				charData["arriveFrom"] = "South";
-                                d3.select(".charDataHolder").attr("value",JSON.stringify(charData)) 
+		    		charData["arriveFrom"] = "South";
+				d3.select("#southText")
+					.html(boarderText
+						.replace("*nextArea*",charData["arriveFrom"].toLowerCase())
+						.replace("*description*",mapData["SArea"]["Description"])
+						.replace("*nextForm*",charData["arriveFrom"].toLowerCase())
+					)
+			d3.select(".charDataHolder").attr("value",JSON.stringify(charData)) 
 			}
 		    if (char_y < height - 50) {
 		    		d3.select("#southText").html("")
 				charData['location'] = currentLocation
 			}
 		    if (char_x > width - 50) {//east
-                                charData['location'] = String(mapData['EArea']['x'])+":"+String(mapData['EArea']['y'])        
-				d3.select("#eastText").html("to the east you can see " + mapData["EArea"]["Description"] + "; " +
-                                "<form action='/gamecontinue' method='post'>" +
-                                "<input class='charDataHolder' type='hidden' name='charData' value='placeholder'>"+
-				"<button type='submit' value=charData>Save and progress to this region</button>" +
-                                "</form>")
-
+                                charData['location'] = String(mapData['EArea']['x'])+":"+String(mapData['EArea']['y'])        		
 				charData["arriveFrom"] = "East";
-                                d3.select(".charDataHolder").attr("value",JSON.stringify(charData)) 
+				d3.select("#eastText")
+					.html(boarderText
+						.replace("*nextArea*",charData["arriveFrom"].toLowerCase())
+						.replace("*description*",mapData["EArea"]["Description"])
+						.replace("*nextForm*",charData["arriveFrom"].toLowerCase())
+					)
+			d3.select(".charDataHolder").attr("value",JSON.stringify(charData)) 
 		    	}
 		    if (char_x < width - 50) {
 		    		d3.select("#eastText").html("")
@@ -127,19 +128,21 @@ var boarderText = "to the north you can see " + mapData["NArea"]["Description"] 
 			}	
 		    if (char_x < 50) {//west
                                 charData['location'] = String(mapData['WArea']['x'])+":"+String(mapData['WArea']['y'])        
-				d3.select("#westText").html("to the west you can see " + mapData["WArea"]["Description"] + "; " +
-                                "<form action='/gamecontinue' method='post'>" +
-                                "<input class='charDataHolder' type='hidden' name='charData' value='placeholder'>"+				
-				"<button type='submit' value=charData>Save and progress to this region</button>" +
-                                "</form>")
-
 				charData["arriveFrom"] = "West";
-                                d3.select(".charDataHolder").attr("value",JSON.stringify(charData)) 
+				d3.select("#westText")
+					.html(boarderText
+						.replace("*nextArea*",charData["arriveFrom"].toLowerCase())
+						.replace("*description*",mapData["WArea"]["Description"])
+						.replace("*nextForm*",charData["arriveFrom"].toLowerCase())
+					)
+			d3.select(".charDataHolder").attr("value",JSON.stringify(charData)) 
 		    	}
 		    if (char_x > 50) {
 		    	d3.select("#westText").html("")
 			charData['location'] = currentLocation
 			}
+
+
 /*
 Each object that reacts to player movement must have an update statement here. This also means that this <script> must come at the end, after all of the other 
 objects are present
