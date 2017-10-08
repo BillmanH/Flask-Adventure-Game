@@ -7,12 +7,16 @@
 </head>
 <body>
 	<p>Adventure awaits!<br>as we are still in open beta, and because I haven't got paypal setup, I just need an email address to create a character</p>
-	<form>
-		<p>Enter an email address that we can connect to your account</p>
-		<input type="text">
-	        <p></p>
-		<input type="submit">
-	</form>
+	<div>	
+		<form action='/gamecontinue' method='post' id='newCharacter'>
+		<input class='formData' type='hidden' name='formData' value='placeholder'>
+		<p>Email:</p>
+		<input type="text" name="Email" value="you@email.com">
+		<p>Character name:</p>
+		<input type="text" name="Name" value="Name your character">
+		<button id="create" style="display: none" type='submit' value='submit'>Begin adventure</button>
+		</form>
+	</div>
 </body>
 <script>
 
@@ -28,17 +32,15 @@ function checFormCompletion(formData) {
 	if((formData.class != undefined)
 		&(formData.race != undefined))
 		{
-		svg.append( = "to the north you can see " + mapData["NArea"]["Description"] + ";" +
-		"<form action='/gamecontinue' method='post' id='northForm'>" +
-		"<input class='charDataHolder' type='hidden' name='charData' value='placeholder'>"+
-		"<button type='submit' value='submit'>Save and progress to this region</button>" +
-		"</form>"
-		return true} else {return false}
+		d3.select('#create').style('display','block')
+		return true
+		} else {return false}
 }
 
 var svg = d3.select('body').append('svg')
 	.attr('width', width)
 	.attr('height', height);
+
 
 var raceButtons = svg.selectAll('.raceButtons')
 	.data(races)
