@@ -12,6 +12,9 @@ def get_terrain_detail():
 	t_detail = yaml.load(myKey.get_contents_as_string())
 	return t_detail
 
+t_detail = get_terrain_detail()
+terrain_types = [t for t in list(t_detail.keys()) if t_detail[t]['Type']=='normal']
+
 def get_random_chord(df):
 	x = np.random.choice(df[df.isnull().any(axis=0)].index.tolist(),1)[0]
 	y = np.random.choice(df[df.isnull().any(axis=1)].index.tolist(),1)[0]
@@ -84,14 +87,14 @@ def getMostCommonTerrain(coord):
 		t = np.random.choice(terrain_types,1)[0]
 	return t
 
-def place_best_terrain(coord):
+def place_best_terrain(coord,df,dfMeta):
 	t = getMostCommonTerrain(coord)
 	if t in list(dfMeta.keys()):
 		dfMeta[t] = dfMeta[t] + 1
 	else:
 		dfMeta[t] = 1
 	df.loc[coord[0],coord[1]] = t
-	return df
+	return df,dfMeta
 
 def place_specific_terrain(t,coord):
 	df.loc[coord[0],coord[1]] = t
@@ -113,9 +116,6 @@ def find_blank_neighbor(coord):
 	pass
 
 def MakeMap():
-	t_detail = get_terrain_detail()
-	#terrain types that are not listed as 'normal' are automaticaly excluded
-	terrain_types = [t for t in list(t_detail.keys()) if t_detail[t]['Type']=='normal']
 	grid = [10,10]
 	df = pd.DataFrame(columns=range(grid[1]),index=range(grid[0]))
 	dfMeta = {}
@@ -123,7 +123,7 @@ def MakeMap():
 		#print(count_remaining_na(),coord)
 		blanks = listBlankSpaces(df)
 		coord = blanks[np.random.choice(len(blanks))]
-		place_best_terrain(coord)
+		df,dfMeta = place_best_terrain(coord,df,dfMeta)
 	return df,dfMeta
 
 	
