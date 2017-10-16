@@ -1,7 +1,16 @@
 import pandas as pd
 import numpy as np
+import yaml
 
 params = {"worldSize":100}
+
+def get_terrain_detail():
+	from boto.s3.connection import S3Connection
+	conn = S3Connection()
+	mybucket = conn.get_bucket('flaskgame')
+	myKey = mybucket.get_key('terrain/terrain_details')
+	t_detail = yaml.load(myKey.get_contents_as_string())
+	return t_detail
 
 def get_random_chord(df):
 	x = np.random.choice(df[df.isnull().any(axis=0)].index.tolist(),1)[0]
@@ -9,11 +18,11 @@ def get_random_chord(df):
 	coord = [x,y]
 	return coord
 
-def count_remaining_na():
+def count_remaining_na(df):
 	num = sum([df[[n]].isnull().sum().tolist()[0] for n in df.columns])
 	return num
 
-def listBlankSpaces():
+def listBlankSpaces(df):
 	places = df.T.to_dict()
 	blankPlaces = []
 	for x in places.keys():
@@ -104,12 +113,15 @@ def find_blank_neighbor(coord):
 	pass
 
 def MakeMap():
+	t_detail = get_terrain_detail()
+	#terrain types that are not listed as 'normal' are automaticaly excluded
+	terrain_types = [t for t in list(t_detail.keys()) if t_detail[t]['Type']=='normal']
 	grid = [10,10]
 	df = pd.DataFrame(columns=range(grid[1]),index=range(grid[0]))
 	dfMeta = {}
-	while count_remaining_na() > 0:
+	while count_remaining_na(df) > 0:
 		#print(count_remaining_na(),coord)
-		blanks = listBlankSpaces()
+		blanks = listBlankSpaces(df)
 		coord = blanks[np.random.choice(len(blanks))]
 		place_best_terrain(coord)
 	return df,dfMeta
