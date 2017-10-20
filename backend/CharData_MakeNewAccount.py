@@ -1,4 +1,5 @@
 from boto.s3.connection import S3Connection
+from boto.s3.key import Key
 import boto
 import yaml
 
@@ -16,13 +17,15 @@ def checkIfAccountExists(id="william.jeffrey.harding@gmail.comcharData.json"):
 
 def saveNewCharacterData(formData):
 	charData = formData
+	charData['account info'] = {}
 	charData['account info']['email'] = formData['email']
 	charData['account info']['password'] = "password"
-	charData['id'] = charData[charData['account info']
-	if(checkIfAccountExists(charData['id'])):
+	charData['id'] = charData['account info']['email']
+	if checkIfAccountExists(charData['id']):
 		characterAlreadyExists()
 	else:
-		myKey = mybucket.get_key("chars/" + charData['id'])
+		myKey = Key(mybucket)
+		myKey.key = "chars/" + charData['id']
 		myKey.set_contents_from_string(str(charData))
 
 def sendNewCharacterInfo(charData):
