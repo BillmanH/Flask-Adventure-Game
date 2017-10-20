@@ -1,16 +1,12 @@
-#placeholder for flask game functions
-
 
 from flask import Blueprint, render_template, abort
-from jinja2 import TemplateNotFound
 
 import BOTO_functions as bto
 
-game = Blueprint('game', __name__, template_folder='templates')
-newcharacter = Blueprint('newcharacter', __name__, template_folder='templates')
-gamecontinue = Blueprint('gamecontinue', __name__, template_folder='templates')
-createcharacter = Blueprint('createcharacter', __name__, template_folder='templates')
-newcharacter = Blueprint('newcharacter', __name__, template_folder='templates')
+game_bp = Blueprint('game', __name__, template_folder='templates')
+newcharacter_bp = Blueprint('newcharacter', __name__, template_folder='templates')
+gamecontinue_bp = Blueprint('gamecontinue', __name__, template_folder='templates')
+createcharacter_bp = Blueprint('createcharacter', __name__, template_folder='templates')
 
  
 @game.route('/game')
@@ -23,7 +19,7 @@ def game():
 	return render_template('game/core_view.html',charData=charData,mapData=mapData,terrData=tDetail,spreadTypes=spreadTypes)
 
 @newcharacter.route('/game/newcharacter')
-def gameLogin():
+def newcharacter():
 	raceData = bto.getRaceData()
 	classData = bto.getClassData()
 	return render_template('game/userforms/newcharacter.html',raceData=raceData,classData=classData)
