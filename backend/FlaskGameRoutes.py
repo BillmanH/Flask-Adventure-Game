@@ -8,7 +8,14 @@ newcharacter = Blueprint('newcharacter', __name__, template_folder='templates')
 gamecontinue = Blueprint('gamecontinue', __name__, template_folder='templates')
 createcharacter = Blueprint('createcharacter', __name__, template_folder='templates')
 
- 
+#listing the routing here so that I don't have to call them individually a second time in the flaskapp.py
+GameRoutes = [
+	game
+	,newcharacter
+ 	,gamecontinue
+	,createcharacter
+	]
+
 @game.route('/game')
 def startgame():
 	charData = bto.getCharData()
