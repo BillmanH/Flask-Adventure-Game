@@ -3,6 +3,8 @@ from boto.s3.key import Key
 import boto
 import yaml
 
+import MapData_RandomlyGenerateMap as m
+
 conn = S3Connection()
 mybucket = conn.get_bucket('flaskgame')
 
@@ -25,8 +27,12 @@ def saveNewCharacterData(formData):
 		characterAlreadyExists()
 	else:
 		myKey = Key(mybucket)
-		myKey.key = "chars/" + charData['id']
+		myKey.key = "chars/" + charData['id'] + 'charData.json'
 		myKey.set_contents_from_string(str(charData))
+		mapData,meta = m.MakeMap(saveonly=True)
+		myKey.key = "maps/" + charData['id'] + "terrainMap.json"
+		myKey.set_contents_from_string(str(mapData))
+		return meta
 
 def sendNewCharacterInfo(charData):
 	pass

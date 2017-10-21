@@ -1,7 +1,7 @@
-
-from flask import Blueprint, render_template, abort
-
+import yaml
+from flask import Blueprint, render_template,request
 import BOTO_functions as bto
+import CharData_MakeNewAccount as c 
 
 game = Blueprint('game', __name__, template_folder='templates')
 newcharacter = Blueprint('newcharacter', __name__, template_folder='templates')
@@ -34,7 +34,8 @@ def formnewcharacter():
 @createcharacter.route('/game/createcharacter', methods=['GET','POST'])
 def returncreatecharacter():
 	formData = yaml.load(request.form['formData'])
-	return str(formData) + "You will get an email soon with your character info and a link"
+	mapmeta = c.saveNewCharacterData(formData)
+	return str(formData) + "You will get an email soon with your character info and a link" + "\b" + str(mapmeta)
 
 @gamecontinue.route('/gamecontinue', methods=['GET', 'POST'])
 def startgamecontinue():

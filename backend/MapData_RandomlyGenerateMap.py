@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import yaml
 
-params = {"worldSize":100}
+params = {"worldSize":10}
 
 def get_terrain_detail():
 	from boto.s3.connection import S3Connection
@@ -115,8 +115,8 @@ def find_blank_neighbor(coord):
 	return [[-1,-1]]
 	pass
 
-def MakeMap():
-	grid = [10,10]
+def MakeMap(saveonly=False):
+	grid = [params['worldSize'],params['worldSize']]
 	df = pd.DataFrame(columns=range(grid[1]),index=range(grid[0]))
 	dfMeta = {}
 	while count_remaining_na(df) > 0:
@@ -124,6 +124,21 @@ def MakeMap():
 		blanks = listBlankSpaces(df)
 		coord = blanks[np.random.choice(len(blanks))]
 		df,dfMeta = place_best_terrain(coord,df,dfMeta)
-	return df,dfMeta
+	if saveonly:
+		mapData = saveWorldMap(df)	
+		return mapData,dfMeta
+	else:#keeping the DF output for further experimentation
+		return df,dfMeta
 
-	
+def saveWorldMap(df):
+	worldMap = {}
+	#make a json file for exporting
+	for x in range(params['worldSize']):
+		for y in range(params['worldSize']):
+			worldMap[str(x)+":"+str(y)] = {
+				"Terrain Code":df.loc[y,x],
+                                      "y":y,"x":x
+				}
+	return worldMap
+
+
