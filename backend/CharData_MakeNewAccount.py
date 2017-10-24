@@ -23,6 +23,7 @@ def saveNewCharacterData(formData):
 	charData['account info']['email'] = formData['email']
 	charData['account info']['password'] = "password"
 	charData['id'] = charData['account info']['email']
+	charData['account info']['token'] = formData['token']
 	if checkIfAccountExists(charData['id']):
 		characterAlreadyExists()
 	else:

@@ -7,6 +7,7 @@ game = Blueprint('game', __name__, template_folder='templates')
 newcharacter = Blueprint('newcharacter', __name__, template_folder='templates')
 gamecontinue = Blueprint('gamecontinue', __name__, template_folder='templates')
 createcharacter = Blueprint('createcharacter', __name__, template_folder='templates')
+welcome = Blueprint('welcome',__name__, template_folder='templates')
 
 #listing the routing here so that I don't have to call them individually a second time in the flaskapp.py
 GameRoutes = [
@@ -14,7 +15,13 @@ GameRoutes = [
 	,newcharacter
  	,gamecontinue
 	,createcharacter
+	,welcome
 	]
+
+@welcome.route('/game/welcome')
+def welcomeview():
+	return render_template('game/userforms/welcomeview.html')
+
 
 @game.route('/game')
 def startgame():
