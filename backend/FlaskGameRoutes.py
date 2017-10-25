@@ -25,14 +25,13 @@ def welcomeview():
 
 @game.route('/game',methods=['GET','POST'])
 def startgame():
-	try:
+	if request.args.get('path')=="new":	
 		formData = yaml.load(request.form['formData'])
 		charID = formData['id']
 		charToken = formData['token']
 		charData = bto.getCharData(id=charID,token=charToken)
-	except:
+	else:
 		return str(formData)+" : Unable to load character"
-		#charData = bto.getCharData()
 	mapData = bto.getAreaInfoFromMap(charData)
 	tDetail = bto.getTerrainDetails(mapData['area']['Terrain Code'])
 	spreadTypes = [type["spread"] for type in tDetail["Terrain Textures"]]
@@ -49,8 +48,8 @@ def formnewcharacter():
 def returncreatecharacter():
 	formData = yaml.load(request.form['formData'])
 	mapmeta = c.saveNewCharacterData(formData)
-	#return render_template('game/newcharactercreated.html',chardata=formData
-	return str(formData) + "You will get an email soon with your character info and a link" + "\b" + str(mapmeta)
+	return render_template('game/newcharactercreated.html',chardata=formData,mapmeta=mapmeta)
+	#return str(formData) + "You will get an email soon with your character info and a link" + "\b" + str(mapmeta)
 
 @gamecontinue.route('/gamecontinue', methods=['GET', 'POST'])
 def startgamecontinue():
