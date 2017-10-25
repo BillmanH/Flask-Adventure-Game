@@ -48,7 +48,7 @@ def formnewcharacter():
 def returncreatecharacter():
 	formData = yaml.load(request.form['formData'])
 	mapmeta = c.saveNewCharacterData(formData)
-	return render_template('game/newcharactercreated.html',chardata=formData,mapmeta=mapmeta)
+	return render_template('game/userforms/newcharactercreated.html',chardata=formData,mapmeta=mapmeta)
 	#return str(formData) + "You will get an email soon with your character info and a link" + "\b" + str(mapmeta)
 
 @gamecontinue.route('/gamecontinue', methods=['GET', 'POST'])
