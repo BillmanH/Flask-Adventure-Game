@@ -33,6 +33,16 @@ function validateEmail(email) {
     return re.test(email);
 }
 
+function makeToken() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 25; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
+
 function checFormCompletion(formData) {
 	formData['email']=document.getElementById("EmailInput").value
 	formData['name']=document.getElementById("Name").value
@@ -46,6 +56,7 @@ function checFormCompletion(formData) {
 		)
 		{
 		formData = Object.assign({},formData,raceData[formData["race"]],classData[formData["class"]])
+		formData['token'] = makeToken()
 		d3.select(".formData").attr("value",JSON.stringify(formData)) 
 		console.log(formData)
 		d3.select('#create').style('display','block')

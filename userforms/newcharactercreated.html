@@ -1,0 +1,18 @@
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<head>
+	<script type="text/javascript" src="{{ url_for('static', filename='d3.v3.min.js') }}"></script>
+	<link rel="stylesheet" href="{{ url_for('static', filename='mobile.css') }}" type="text/css" media="only screen and (max-width: 600px)"/>
+</head>
+<body>
+<script>
+var mapmeta = {{mapmeta| safe}};
+var formData ={{formData| safe}};
+
+console.log(mapmeta)
+console.log(formData)
+
+</script>
+</body>
+	

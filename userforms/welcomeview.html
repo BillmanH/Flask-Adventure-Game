@@ -13,10 +13,60 @@
 </body>
 
 <script>
-buttons = ["Start New Game","Load Saved Game","View Account Info"]
+
+var forms = [
+	{name:"new",
+	title:"Start New Game"},
+	{name:"load",
+	title:"Load Saved Game"},
+	{name:"stats",
+	title:"View Account Info"}
+	]
 
 var width = 960, height = 500;
 
- 
+var svg = d3.select('body').append('svg')
+	.attr('width', width)
+	.attr('height', height);
+
+var selection = "None"
+
+//function openWindow(m)
+var options = svg.selectAll('.options')
+	.data(forms)
+	.enter()
+	.append('g')
+	.attr('data-name',function(d){return d.name}
+ 	.on("click", function(element){
+		selection =  d3.select(this).select('text').text()
+		options.selectAll('rect')
+		.transition()
+		.style('fill','black');
+		options.selectAll('text')
+		.attr('fill','white');
+		d3.select(this).selectAll('rect')
+		.transition()
+		.style('fill','blue');
+		console.log(this)	
+	})
+	
+options.append('rect')
+	.attr('x', 0)
+	.attr('y',function(d,i){return i*41})
+	.attr('height',40)
+	.attr('width',200)
+	.style('fill','blue')
+	.attr('class', 'button')
+
+options.append("text")
+	.text(function(d){
+		return d.title
+		})
+	.attr('x',5)
+	.attr('y',function(d,i){return i*42+20})
+	.attr("font-size", "19px")
+	.attr("fill", "black")
+	.attr("font-family","sans-serif")
+
 </script>
 
