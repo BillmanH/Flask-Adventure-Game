@@ -5,7 +5,7 @@
 </head>
 <body>
 	<h1>
-	D3: Dungeons, Deamons and Destiny
+	Adventures in D3!
 	</h1>
 	<p>
 	Welcom to my Flask adventure game, using D3.js and Flask.py
@@ -36,9 +36,8 @@ var options = svg.selectAll('.options')
 	.data(forms)
 	.enter()
 	.append('g')
-	.attr('data-name',function(d){return d.name}
+	.attr('data-name',function(d){return d.name})
  	.on("click", function(element){
-		selection =  d3.select(this).select('text').text()
 		options.selectAll('rect')
 		.transition()
 		.style('fill','black');
@@ -47,7 +46,17 @@ var options = svg.selectAll('.options')
 		d3.select(this).selectAll('rect')
 		.transition()
 		.style('fill','blue');
-		console.log(this)	
+		selection = "." + d3.select(this).attr('data-name')
+		console.log(selection);
+		d3.selectAll('.userform')
+			.transition()
+			.duration(500)
+			.attr('height',5);
+
+		d3.select(selection)
+			.transition()
+			.duration(500)
+			.attr('height',300);
 	})
 	
 options.append('rect')
@@ -67,6 +76,18 @@ options.append("text")
 	.attr("font-size", "19px")
 	.attr("fill", "black")
 	.attr("font-family","sans-serif")
+
+var userform = svg.selectAll('.userform')
+	.data(forms)
+	.enter()
+	.append('rect')
+	.attr('x', 0)
+	.attr('y',forms.length *42+5)
+	.attr('height',10)
+	.attr('width',width)
+	.style('fill','blue')
+	.attr('class', function(d){return d.name})
+	.classed('userform',true)
 
 </script>
 
