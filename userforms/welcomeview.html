@@ -15,18 +15,26 @@
 <script>
 
 var forms = [
-	{name:"new",
+	{
+	name:"new",
 	title:"Start New Game",
 	t1:"You will need a new character",
-	b1:"click here"},
+	b1:"click here",
+	buttonlink:"http://williamjeffreyharding.com/game/newcharacter"
+	},
 	{name:"load",
 	title:"Load Saved Game",
 	t1:"Enter your Email",
-	b1:"Submit"},
+	b1:"Submit",
+	buttonlink:"none"
+	},
 	{name:"stats",
 	title:"View Account Info",
 	t1:"Enter your email",
-	b1:"Submit"}]
+	b1:"Submit",
+	buttonlink:"none"
+	}
+	]
 
 var width = 960, height = 500;
 
@@ -67,6 +75,11 @@ var options = svg.selectAll('.options')
 			.transition()
 			.attr('height',0)
 			.attr('width',0)
+		d3.selectAll('.userform')
+			.selectAll('a')
+			.selectAll('rect')
+			.selectAll('text')
+			.style('visibility','hidden');
 
 		d3.select(selection)
 			.select('rect')
@@ -82,6 +95,13 @@ var options = svg.selectAll('.options')
 		d3.select(selection)
 			.selectAll('text')
 			.style('visibility','visible');
+		d3.select(selection)
+			.selectAll('a')
+			.selectAll('rect')
+			.selectAll('text')
+			.style('visibility','visible');
+
+
 	})
 	
 options.append('rect')
@@ -120,7 +140,7 @@ var formBoxes = userform
 
 var buttons = userform
 	.append('a')
-	.attr("xlink:href","http://williamjeffreyharding.com/game/newcharacter")
+	.attr("xlink:href",function(d){return d.buttonlink})
 	.append("rect")  
 	.attr("x", 5)
 	.attr("y", forms.length*42+50)
@@ -138,6 +158,12 @@ userform
 	.attr('y',forms.length*42+25)
 	.text(function(d){return d.t1})
 	.attr('class', function(d){return d.name})
+	.style('visibility','hidden')
+
+userform.selectAll('a')
+	.selectAll('rect')
+	.append('text')
+	.text(function(d){return d.b1})
 	.style('visibility','hidden')
 
 </script>
