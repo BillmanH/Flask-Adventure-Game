@@ -10,6 +10,10 @@
 	<p>
 	Welcom to my Flask adventure game, using D3.js and Flask.py
 	</p>
+	<form> 
+  	<p>text will go here:<p> <input style="visibility:hidden" type="text" id="inputform"><br>
+	</form>
+
 </body>
 
 <script>
@@ -28,14 +32,14 @@ var forms = [
 	t1:"Enter your Email",
 	b1:"Submit",
 	buttonlink:"none",
-        inputform:"blank"
+        inputform:"put your email here: "
 	},
 	{name:"stats",
 	title:"View Account Info",
 	t1:"Enter your email",
 	b1:"Submit",
 	buttonlink:"none",
-        inputform:"blank"
+        inputform:"put in your email here: "
 	}
 	]
 
@@ -58,7 +62,8 @@ var options = svg.selectAll('.options')
 	.enter()
 	.append('g')
 	.attr('data-name',function(d){return d.name})
- 	.on("click", function(element){
+ 	.attr('data-form',function(d){return d.inputform})
+	.on("click", function(element){
 		options.selectAll('rect')
 		.transition()
 		.style('fill','black');
@@ -110,6 +115,13 @@ var options = svg.selectAll('.options')
 			.selectAll('text')
 			.style('visibility','visible');
 
+	//transform the text input only if the text input isn't "blank"
+	if(d3.select(this).attr('data-form')!='blank'){
+		document.getElementById('inputform').style.visibility = 'visible'
+	} else {
+		document.getElementById('inputform').style.visibility = 'hidden'
+		console.log(d3.select(this).attr('data-form'))
+	}
 
 	})
 	
