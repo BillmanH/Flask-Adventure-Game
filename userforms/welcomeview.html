@@ -118,6 +118,7 @@ var options = svg.selectAll('.options')
 	//transform the text input only if the text input isn't "blank"
 	if(d3.select(this).attr('data-form')!='blank'){
 		document.getElementById('inputform').style.visibility = 'visible'
+		document.getElementById('inputform').placeholder=d3.select(this).attr('data-form')
 	} else {
 		document.getElementById('inputform').style.visibility = 'hidden'
 		console.log(d3.select(this).attr('data-form'))
