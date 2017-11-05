@@ -6,12 +6,18 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='mobile.css') }}" type="text/css" media="only screen and (max-width: 600px)"/>
 </head>
 <body>
+<form action='/game' method='post' id='newCharacter'>
+<input class='formData' type='hidden' name='formData' value='placeholder'>
+<button id="launch" type='submit' value='submit'>Begin adventure</button>
+</form>
 <script>
 var mapmeta = {{mapmeta| safe}};
-var formData ={{formData| safe}};
+var charData ={{charData| safe}};
 
 console.log(mapmeta)
-console.log(formData)
+console.log(charData)
+
+
 
 </script>
 </body>
