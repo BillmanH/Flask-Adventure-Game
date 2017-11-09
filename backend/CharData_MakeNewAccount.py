@@ -9,6 +9,8 @@ conn = S3Connection()
 mybucket = conn.get_bucket('flaskgame')
 
 
+#TODO add functions to check if character already exists
+
 def checkIfAccountExists(id="william.jeffrey.harding@gmail.comcharData.json"):
 	myKey = mybucket.get_key("chars/" + id)
 	if myKey==None:
@@ -24,6 +26,9 @@ def saveNewCharacterData(formData):
 	charData['account info']['password'] = "password"
 	charData['id'] = charData['account info']['email']
 	charData['account info']['token'] = formData['token']
+	charData['location'] = '2:2'
+	charData['attributes'] = ['new']
+	#TODO character's starting location should be a function of the world size or something?
 	if checkIfAccountExists(charData['id']):
 		characterAlreadyExists()
 	else:

@@ -29,9 +29,9 @@ def startgame():
 		formData = yaml.load(request.form['formData'])
 		charID = formData['id']
 		charToken = formData['token']
-		charData = bto.getCharData(id=charID,token=charToken)
+		charData = bto.getCharData(user=charID,token=charToken)
 	else:
-		return str(formData)+" : Unable to load character"
+		return "Unable to load character"
 	mapData = bto.getAreaInfoFromMap(charData)
 	tDetail = bto.getTerrainDetails(mapData['area']['Terrain Code'])
 	spreadTypes = [type["spread"] for type in tDetail["Terrain Textures"]]
@@ -48,7 +48,7 @@ def formnewcharacter():
 def returncreatecharacter():
 	formData = yaml.load(request.form['formData'])
 	mapmeta = c.saveNewCharacterData(formData)
-	return render_template('game/userforms/newcharactercreated.html',chardata=formData,mapmeta=mapmeta)
+	return render_template('game/userforms/newcharactercreated.html',charData=formData,mapmeta=mapmeta)
 	#return str(formData) + "You will get an email soon with your character info and a link" + "\b" + str(mapmeta)
 
 @gamecontinue.route('/gamecontinue', methods=['GET', 'POST'])
