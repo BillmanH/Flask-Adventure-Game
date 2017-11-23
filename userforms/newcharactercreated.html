@@ -6,8 +6,8 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='mobile.css') }}" type="text/css" media="only screen and (max-width: 600px)"/>
 </head>
 <body>
-<form action='/game' method='post' id='newCharacter'>
-<input class='formData' type='hidden' name='formData' value='placeholder'>
+<form action='/game?path=new' method='post' id='newCharacter'>
+<input id="formData" class='formData' type='hidden' name='formData' value='placeholder'>
 <button id="launch" type='submit' value='submit'>Begin adventure</button>
 </form>
 <script>
@@ -17,6 +17,7 @@ var charData ={{charData| safe}};
 console.log(mapmeta)
 console.log(charData)
 
+document.getElementById('formData').value = JSON.stringify(charData)
 
 
 </script>
