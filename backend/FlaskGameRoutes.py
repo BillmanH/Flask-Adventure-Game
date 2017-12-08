@@ -8,7 +8,7 @@ newcharacter = Blueprint('newcharacter', __name__, template_folder='templates')
 gamecontinue = Blueprint('gamecontinue', __name__, template_folder='templates')
 createcharacter = Blueprint('createcharacter', __name__, template_folder='templates')
 welcome = Blueprint('welcome',__name__, template_folder='templates')
-gameload = Blueprint('gameload',__name__, template_folder='templates')
+gameload = Blueprint('loadedgame',__name__, template_folder='templates')
 
 #listing the routing here so that I don't have to call them individually a second time in the flaskapp.py
 GameRoutes = [
@@ -52,9 +52,12 @@ def returncreatecharacter():
 	return render_template('game/userforms/newcharactercreated.html',charData=formData,mapmeta=mapmeta)
 	#return str(formData) + "You will get an email soon with your character info and a link" + "\b" + str(mapmeta)
 
-@gameload.route('/loadedGame',methods=['GET','POST'])
+@gameload.route('/game/loadedgame',methods=['GET','POST'])
 def startgameload():
-	charEmail = yaml.load(request.form['email'])
+	formData = yaml.load(request.form['formData'])
+	charEmail = formData['email']
+	charToken = "pass"
+	#TODO: CharToken needs to happen here
 	charData = bto.getCharData(user=charEmail,token=charToken)	
 	mapData = bto.getAreaInfoFromMap(charData)
 	tDetail = bto.getTerrainDetails(mapData['area']['Terrain Code'])

@@ -46,13 +46,14 @@ def getTerrainDetails(t_type):
 	t_details = yaml.load(myKey.get_contents_as_string())	
 	return t_details
 
-def getCharData(user="william.jeffrey.harding@gmail.com",token="notoken"):
+def getCharData(user,token="notoken"):
 	#bto.getCharData(id=charID,token=charToken)
 	#TODO use the token to authenticate the user
 	mybucket = conn.get_bucket('flaskgame')
 	myKey = mybucket.get_key("chars/" + user + "charData.json")
 	data = yaml.load(myKey.get_contents_as_string())
-	data.pop('account info') #removed info pertaining to the account for security
+	if 'account info' in data.keys():
+		data.pop('account info') #removed info pertaining to the account for security
 	return data
 
 def saveCharData(cData):
@@ -61,8 +62,9 @@ def saveCharData(cData):
 	mybucket = conn.get_bucket('flaskgame')
 	myKey = mybucket.get_key("chars/" + charID + "charData.json")
 	oldData = yaml.load(myKey.get_contents_as_string())
-	accountData = oldData.pop('account info') #removed info pertaining to the account for security
-	charData['account info'] = accountData
+	if 'account info' in oldData.keys():
+		accountData = oldData.pop('account info') #removed info pertaining to the account for security
+		charData['account info'] = accountData
 	myKey.set_contents_from_string(str(charData))
 	return charData
 
