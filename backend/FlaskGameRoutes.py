@@ -1,5 +1,6 @@
 import yaml
 from flask import Blueprint, render_template,request
+from wtforms import Form, TextField, validators
 import BOTO_functions as bto
 import CharData_MakeNewAccount as c 
 
@@ -9,6 +10,7 @@ gamecontinue = Blueprint('gamecontinue', __name__, template_folder='templates')
 createcharacter = Blueprint('createcharacter', __name__, template_folder='templates')
 welcome = Blueprint('welcome',__name__, template_folder='templates')
 gameload = Blueprint('loadedgame',__name__, template_folder='templates')
+loadlogin = Blueprint('loadlogin',__name__, template_folder='templates')
 
 #listing the routing here so that I don't have to call them individually a second time in the flaskapp.py
 GameRoutes = [
@@ -17,7 +19,8 @@ GameRoutes = [
  	,gamecontinue
 	,createcharacter
 	,welcome
-	,gameload]
+	,gameload
+	,loadlogin]
 
 @welcome.route('/game/welcome')
 def welcomeview():
@@ -51,6 +54,21 @@ def returncreatecharacter():
 	mapmeta = c.saveNewCharacterData(formData)
 	return render_template('game/userforms/newcharactercreated.html',charData=formData,mapmeta=mapmeta)
 	#return str(formData) + "You will get an email soon with your character info and a link" + "\b" + str(mapmeta)
+
+class UserLoginForm(Form):
+	EmailAddress = TextField('Email', [validators.Required(), validators.Length(min=4, max=250)])
+
+@loadlogin.route('/game/loadlogin', methods=['GET','POST'])
+def loadgameform():
+	form = UserLoginForm(request.form)
+	error = None
+	if request.method == 'POST' and form.validate():
+		charData = bto.getCharData(user=form.EmailAddress.data)
+		mapData = bto.getAreaInfoFromMap(charData)
+		tDetail = bto.getTerrainDetails(mapData['area']['Terrain Code'])
+		spreadTypes = [type["spread"] for type in tDetail["Terrain Textures"]]
+		return render_template('game/core_view.html',charData=charData,mapData=mapData,terrData=tDetail,spreadTypes=spreadTypes)
+	return render_template('game/userforms/loadlogin.html',form=form)
 
 @gameload.route('/game/loadedgame',methods=['GET','POST'])
 def startgameload():
