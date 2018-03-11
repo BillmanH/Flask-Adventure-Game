@@ -8,12 +8,15 @@
 	Adventures in D3!
 	</h1>
 	<p>
-	Welcom to my Flask adventure game, using D3.js and Flask.py
+	Pull up your account using your email	
 	</p>
-<a class="button" href="http://williamjeffreyharding.com/game/newcharacter">Create a new character</a>
 <p></p>
-<a class="button" href="http://williamjeffreyharding.com/game/loadlogin">Load an existing game</a>
-
+<form method=post>
+	<dl>
+	{{ form.EmailAddress }}
+	</dl>
+	<input type=submit value="Load Game">
+</form>
 
 </body>
 

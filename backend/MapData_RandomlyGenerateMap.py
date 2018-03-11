@@ -130,6 +130,10 @@ def MakeMap(saveonly=False):
 	else:#keeping the DF output for further experimentation
 		return df,dfMeta
 
+def addThreatLevel(coord):
+	#TODO I'm just adding a same-size threat level for each cell. This should be replaced with some kind of dynamic feature. 
+	return 10
+
 def saveWorldMap(df):
 	worldMap = {}
 	#make a json file for exporting

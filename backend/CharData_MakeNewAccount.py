@@ -30,7 +30,8 @@ def saveNewCharacterData(formData):
 	charData['attributes'] = ['new']
 	#TODO character's starting location should be a function of the world size or something?
 	if checkIfAccountExists(charData['id']):
-		characterAlreadyExists()
+		#TODO nothing happens if the account already exsits, I need a page for that
+		return meta
 	else:
 		myKey = Key(mybucket)
 		myKey.key = "chars/" + charData['id'] + 'charData.json'
