@@ -1,12 +1,18 @@
 from boto.s3.connection import S3Connection
 import boto
 import yaml
+import numpy as np
+import pandas as pd
 
 #conn = boto.connect_s3()
 
 conn = S3Connection()
 
 def getAreaInfoFromMap(charData):
+	'''
+	takes charData as DICT
+	returns mapData as DICT
+	'''
 	charLoc = charData['location']
 	UserID = charData['id']
 	x = int(charLoc.split(":")[0])
@@ -43,14 +49,54 @@ def getAreaInfoFromMap(charData):
 		"EArea":data[str(EArea[0])+":"+str(EArea[1])],
 		"SArea":data[str(SArea[0])+":"+str(SArea[1])],
 		"WArea":data[str(WArea[0])+":"+str(WArea[1])] }
-	
+	#adding terrain details foreach terrain code
 	for item in mapData.keys():
 		t_type = mapData[item]['Terrain Code']
 		mapData[item].update(getTerrainDetails(t_type))
+	#Adding monsters
+	mapData['monsters'] = addMonsters(mapData)
 	return mapData
 
-def createCharacter(formData):
-	return "pass"
+
+def addMonsters(mapData):
+    '''
+    takes mapData as DICT
+    returns monsters as DICT
+    example:
+    mapData['monsters'] = addMonsters(mapData) 
+    '''
+    monsters = {}
+    beastiary = getBeastiary()
+    if mapData['area']['Danger Level'] < 1:
+        #if the danger level is less than 0, don't load any monsters.
+        monsters['message'] = 'The area looks calm and peacefull.'
+        return monsters
+    creature = beastiary[mapData['area']['creatures']]
+    d10 = np.random.random(1)[0]
+    if d10 > mapData['area']['Creature Probability']:
+        #even if there is a danger in the area, that doesn't mean a monster will show.
+        monsters['message'] = 'The area looks calm and peacefull.'
+        return monsters
+    if d10 <= mapData['area']['Creature Probability']:
+        monsters['message'] = 'there is a ' + creature['name'] + ' in the area.'
+        if creature['group min'] == creature['group max']:
+            #if the min and max are the same, the min number will be drawn.
+            nMonsters = creature['group min']
+        else:
+            #otherwise, the number of monsters is a random number between the min and the max.
+            nMonsters = np.random.randint(creature['group min'],creature['group max'])
+    #a list of monsters is added that is nMonsters long
+    m = []
+    for i in range(nMonsters):
+        m.append(beastiary[mapData['area']['creatures']]) 
+    monsters['m'] = m
+    return monsters
+
+def getBeastiary():
+	mybucket = conn.get_bucket('flaskgame')
+	myKey = mybucket.get_key('terrain/beastiary')
+	beastiary = yaml.load(myKey.get_contents_as_string())
+	return beastiary
 
 def getRaceData():
 	mybucket = conn.get_bucket('flaskgame')
@@ -72,8 +118,10 @@ def getTerrainDetails(t_type):
 	return t_details
 
 def getCharData(user,token="notoken"):
-	#bto.getCharData(id=charID,token=charToken)
-	#TODO use the token to authenticate the user
+	'''
+	bto.getCharData(id=charID,token=charToken)
+	TODO use the token to authenticate the user
+	'''
 	mybucket = conn.get_bucket('flaskgame')
 	myKey = mybucket.get_key("chars/" + user + "charData.json")
 	data = yaml.load(myKey.get_contents_as_string())
@@ -92,29 +140,5 @@ def saveCharData(cData):
 		charData['account info'] = accountData
 	myKey.set_contents_from_string(str(charData))
 	return charData
-
-# This function returns a default blog article, it is set to return my first article in the event of an error.
-def getBlogArticle(article):
-		mybucket = conn.get_bucket('flaskgame')
-		if article==None:
-			defaultKey = mybucket.get_key("blog/" + "d3_backend.json")
-			myKey = mybucket.get_key(defaultKey)
-			content = yaml.load(myKey.get_contents_as_string())
-			return content
-		potentialKey = "blog/" + article + ".json"
-		if potentialKey in [item.name for item in mybucket.list() if "blog/" in item.name]:
-				defaultKey = mybucket.get_key("blog/" + article + ".json")
-				content = yaml.load(defaultKey.get_contents_as_string())
-		else:
-				defaultKey = mybucket.get_key("blog/" + "d3_backend.json")
-				myKey = mybucket.get_key(defaultKey)
-				content = yaml.load(myKey.get_contents_as_string())
-		return content
-
-def getContentList():
-	mybucket = conn.get_bucket('flaskgame')
-	myKey = mybucket.get_key('blog/contentlist')
-	content = yaml.load(myKey.get_contents_as_string())
-	return content
 
 
