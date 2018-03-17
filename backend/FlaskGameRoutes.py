@@ -66,7 +66,7 @@ def loadgameform():
 		charData = bto.getCharData(user=form.EmailAddress.data)
 		mapData = bto.getAreaInfoFromMap(charData)
 		tDetail = bto.getTerrainDetails(mapData['area']['Terrain Code'])
-		spreadTypes = [type["spread"] for type in tDetail["Terrain Textures"]]
+		spreadTypes = [type["spread"] for type in tDetail["Terrain Textures"]]	
 		return render_template('game/core_view.html',charData=charData,mapData=mapData,terrData=tDetail,spreadTypes=spreadTypes)
 	return render_template('game/userforms/loadlogin.html',form=form)
 
