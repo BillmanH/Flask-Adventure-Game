@@ -22,14 +22,14 @@ function terrain_interactions(prev_x,prev_y){
 				case "slow":
 					//console.log(d3.select(this).attr("affectText"))
 					charData["attributes"]["slowed"] = d3.select(this).attr("affectAmt")
-					appendLog(d3.select(this).attr("affectText").replace("***",charData["name"]))
+					objectAlerts("#character",d3.select(this).attr("affectText").replace("***",charData["name"]))
 					break;
 				case "bump":
 					var vol = d3.select(this).attr("affectAmt")
 				       	var dir = get_pos_neg(dx,dy)
 					//playerChar.transition().attr("cx", 100).attr("cy", 100);
 					//console.log("dir= ",dir)
-					appendLog(d3.select(this).attr("affectText").replace("***",charData["name"]))
+					objectAlerts("#character",d3.select(this).attr("affectText").replace("***",charData["name"]))
 					n_x = x1 + -1*(dir[0])*(vol+hyp)
 					n_y = y1 + -1*(dir[1])*(vol+hyp)
 					break;
@@ -41,4 +41,5 @@ function terrain_interactions(prev_x,prev_y){
 return [n_x,n_y]
 }
 
+objectAlerts("#character",(mapData["monsters"]["message"]))
 </script>

@@ -10,15 +10,29 @@ Text for the botom of the screen
 	textWindow.append("div").attr("id", "westText").html("")
 	textWindow.append("div").attr("id", "eventLog").html("")
 
-function appendLog(newHtml){
-	var eventLog = d3.select("#eventLog").html()
-	var eventLog = eventLog + "<p class='logger'>"
-	var eventLog = eventLog + newHtml
-	var eventLog = eventLog + "</p>"
-	d3.select("#eventLog").html(eventLog)
+
+//objectAlerts takes an object (like the char) and sends out a quick text
+//message for 
+function objectAlerts(subject,message){
+	subj = d3.select(subject);
+	x = subj.attr("cx");
+	y = subj.attr("cy");
+	nx = (parseInt(x)+10).toString()
+	ny = (parseInt(y)+10).toString()
+	d3.select("body")
+		.append("div")
+		.style("z-index", "10")
+		.style("position", "absolute")
+		.attr("class","objectalert")
+		.style("top", y +"px").style("left",x +"px")
+		.html(message)
+		.transition()
+		.duration(2500)
+		.style("opacity", 0)
+		.style("top", ny +"px").style("left",nx +"px")
+		.remove();
 }
 
 //basic functions text that loads when the user starts in an area
-appendLog(mapData["monsters"]["message"])
 </script>
 
