@@ -98,12 +98,11 @@ def startgamecontinue():
 @terrainmap.route('/terrainmap', methods=['GET','POST'])
 def loadterrainmap():
 	#load the character
-	charDataD = yaml.load(request.form['charData'])
-	charData = request.form['charData']
-	mapData = bto.getAreaInfoFromMap(charDataD) #takes a character object, not a string
-	tDetail = bto.getTerrainDetails(mapData['area']['Terrain Code'])
-	spreadTypes = [type["spread"] for type in tDetail["Terrain Textures"]]
-	return render_template('game/terrain/terrain_map.html',charData=charDataD,mapData=mapData,terrData=tDetail,spreadTypes=spreadTypes)
+	formData = yaml.load(request.form['formData'])
+	charEmail = formData['email']
+	charData = bto.getCharData(user=charEmail,token=charToken)
+	worldMap = bto.getFullMap(charDataD) #takes a character object, not a string
+	return render_template('game/terrain/terrain_map.html',charData=charDataD,mapData=worldMap)
 
 
 
