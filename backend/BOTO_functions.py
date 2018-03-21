@@ -8,6 +8,17 @@ import pandas as pd
 
 conn = S3Connection()
 
+def getFullMap(charData):
+	UserID = charData['id']
+	mybucket = conn.get_bucket('flaskgame')
+	myKey = mybucket.get_key("maps/" + UserID + "terrainMap.json")
+	worldData = yaml.load(myKey.get_contents_as_string())
+	for item in worldData.keys():
+		t_type = worldData[item]['Terrain Code']
+		worldData[item].update(getTerrainDetails(t_type))
+	return worldData
+
+
 def getAreaInfoFromMap(charData):
 	'''
 	takes charData as DICT
