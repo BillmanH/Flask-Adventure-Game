@@ -1,0 +1,166 @@
+<html>
+<head>
+	<title>Flask D3.js Game</title>
+	<script type="text/javascript" src="{{ url_for('static', filename='d3.v3.min.js') }}"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+	<!- Meta data, Tracking Codes and Analyitics>
+	{% include "game/global_functions.html" %}
+	{% include "game/GA_Tracking_Code.html" %}
+<body>
+	<script>
+	//adding global variables, for troubleshooting and access within various scripts
+	var charData = {{charData | safe}};
+	var currentLocation = charData['location']
+	var mapData = {{mapData | safe}};
+	
+	</script>
+
+  <style>
+  
+  rect.bordered {
+    stroke: #bbb;
+    stroke-width:3px;   
+  }
+  
+  text.mono {
+    font-size: 9pt;
+    font-family: verdana;
+    fill: #aaa;
+  }
+  
+  text.mono:hover {
+    font-size: 12pt;
+    font-family: verdana;
+    fill: #aaa;
+    font-weight: bold;
+  }
+  
+  .square {
+    opacity: 0.5;
+  }
+  
+  .square:hover {
+    opacity: 1.0;
+  }
+  
+  .d3-tip {
+    font-family: Verdana;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 8px;
+    color: #fff; 
+    z-index: 5070;
+  }
+  
+  </style>
+<button type="button" id="Danger Level">Danger Level</button>
+<button type="button" id="Creature Probability">Creature Probability</button>
+<button type="button" id="Terrain Type">Terrain Type</button><br>
+
+<script type="text/javascript">
+      var margin = { top: 50, right: 0, bottom: 100, left: 30 },
+          width = 960 - margin.left - margin.right,
+          height = 430 - margin.top - margin.bottom,
+          gridSize = Math.floor(width / 25),
+          legendWidth = (gridSize/2 + 4),
+          buckets = 10;
+
+      var svg = d3.select("body").append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+              .append("g")
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	var data = []
+	var dims = Object.entries(mapData)
+	var dim_1 = []
+	var dim_2 = []
+	for (i in dims){
+		if (dim_1.indexOf(parseInt(Object.entries(mapData)[i][0].split(":")[0]))<0) {dim_1.push(parseInt(Object.entries(mapData)[i][0].split(":")[0]))}
+		if (dim_2.indexOf(parseInt(Object.entries(mapData)[i][0].split(":")[1]))<0) {dim_2.push(parseInt(Object.entries(mapData)[i][0].split(":")[1]))}
+		data.push(mapData[Object.entries(mapData)[i][0]]);
+	}
+	dim_1 = dim_1.sort()
+	dim_2 = dim_2.sort()
+
+          var maxNum = dim_1.length
+
+          var colors = ['#f7fcfd','#e5f5f9','#ccece6','#66c2a4','#238b45','#006d2c','#00441b','#000000'] 
+
+          var colorScale = d3.scale.quantile()
+              .domain([0, buckets - 1, maxNum])
+              .range(colors);
+
+          var dim1Labels = svg.selectAll(".dim1Label")
+              .data(dim_1)
+              .enter().append("text")
+                .text(function (d) { return d; })
+                .attr("x", 0)
+                .attr("y", function (d, i) { return i * gridSize; })
+                .style("text-anchor", "end")
+                .attr("transform", "translate(-6," + gridSize / 1.5 + ")")
+                .attr("class","mono");
+
+          var dim2Labels = svg.selectAll(".dim2Label")
+              .data(dim_2)
+              .enter().append("text")
+                .text(function(d) { return d; })
+                .attr("x", function(d, i) { return i * gridSize; })
+                .attr("y", 0)
+                .style("text-anchor", "middle")
+                .attr("transform", "translate(" + gridSize / 2 + ", -6)")
+                .attr("class","mono");
+
+          var heatMap = svg.selectAll(".dim2")
+              .data(data)
+              .enter().append("rect")
+              .attr("x", function(d) { return (d.x) * gridSize; })
+              .attr("y", function(d) { return (d.y) * gridSize; })
+              .attr("rx", 4)
+              .attr("ry", 4)
+              .attr("class", "dim2 bordered")
+              .attr("width", gridSize-2)
+              .attr("height", gridSize-2)
+              .style("fill", colors[0])
+              .attr("class", "square")
+
+          heatMap.transition()
+              .style("fill", function(d) { return colorScale(d['Danger Level']); });
+
+          heatMap.append("title").text(function(d) { return d['Type Name']; });
+              
+          var legend = svg.selectAll(".legend")
+              .data([0].concat(colorScale.quantiles()), function(d) { return d; })
+              .enter().append("g")
+              .attr("class", "legend");
+
+          legend.append("rect")
+            .attr("x", function(d, i) { return gridSize * 11; })
+            .attr("y", function(d, i) { return (i * legendWidth + 7); })
+            .attr("width", gridSize/2)
+            .attr("height", gridSize/2)
+            .style("fill", function(d, i) { return colors[i]; })
+            .attr("class", "square");
+
+          legend.append("text")
+            .attr("class", "mono")
+            .text(function(d) { return "≥ " + Math.round(d); })
+            .attr("x", function(d, i) { return gridSize * 11 + 25; })
+            .attr("y", function(d, i) { return (i * legendWidth + 20); })
+
+          var title = svg.append("text")
+                .attr("class", "mono")
+                .attr("x", gridSize * 11)
+                .attr("y", - 6)         
+                .style("font-size", "14px")
+                .text("Legend");
+
+ 
+        
+
+</script>
+
+	
+
+</body>
+</html>
