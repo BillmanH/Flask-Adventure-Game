@@ -1,5 +1,6 @@
 <html>
 <head>
+<! special thanks to http://bl.ocks.org/ilanman/9598445 for the template>
 	<title>Flask D3.js Game</title>
 	<script type="text/javascript" src="{{ url_for('static', filename='d3.v3.min.js') }}"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -53,9 +54,8 @@
   }
   
   </style>
-<button type="button" id="Danger Level">Danger Level</button>
-<button type="button" id="Creature Probability">Creature Probability</button>
-<button type="button" id="Terrain Type">Terrain Type</button><br>
+<button type="button" id="DangerLevel">Danger Level</button>
+<button type="button" id="CreatureProbability">Creature Probability</button>
 
 <script type="text/javascript">
       var margin = { top: 50, right: 0, bottom: 100, left: 30 },
@@ -156,7 +156,20 @@
                 .text("Legend");
 
  
-        
+	d3.select("#DangerLevel").on("click", 
+		function (d) {
+		heatMap.transition()
+			.style("fill", function(d) { return colorScale(d['Danger Level']) })
+		}
+	);       
+
+	d3.select("#CreatureProbability").on("click", 
+		function (d) {
+			heatMap.transition()
+				.style("fill", function(d) { return colorScale(d['Creature Probability']*10) })
+		}
+	);
+ 
 
 </script>
 
