@@ -155,6 +155,11 @@
                 .style("font-size", "14px")
                 .text("Legend");
 
+	var player = svg.append("circle")
+		.attr("cx",parseInt(charData['location'].split(":")[0])* gridSize+(gridSize/2))
+		.attr("cy",parseInt(charData['location'].split(":")[1])* gridSize+(gridSize/2))
+		.attr("r",4)
+		.fill("#00000")
  
 	d3.select("#DangerLevel").on("click", 
 		function (d) {
