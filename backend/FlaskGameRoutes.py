@@ -1,6 +1,6 @@
 import yaml
 from flask import Blueprint, render_template,request
-from wtforms import Form, TextField, validators
+from wtforms import Form, TextField, SubmitField, validators
 import BOTO_functions as bto
 import CharData_MakeNewAccount as c 
 
@@ -58,6 +58,8 @@ def returncreatecharacter():
 
 class UserLoginForm(Form):
 	EmailAddress = TextField('Email', [validators.Required(), validators.Length(min=4, max=250)])
+	adventure = SubmitField(label='Continue to the adventure!')
+	worldMap = SubmitField(label='Show the world map.')
 
 @loadlogin.route('/game/loadlogin', methods=['GET','POST'])
 def loadgameform():
@@ -65,10 +67,14 @@ def loadgameform():
 	error = None
 	if request.method == 'POST' and form.validate():
 		charData = bto.getCharData(user=form.EmailAddress.data)
-		mapData = bto.getAreaInfoFromMap(charData)
-		tDetail = bto.getTerrainDetails(mapData['area']['Terrain Code'])
-		spreadTypes = [type["spread"] for type in tDetail["Terrain Textures"]]	
-		return render_template('game/core_view.html',charData=charData,mapData=mapData,terrData=tDetail,spreadTypes=spreadTypes)
+		if form.adventure.data:
+			mapData = bto.getAreaInfoFromMap(charData)
+			tDetail = bto.getTerrainDetails(mapData['area']['Terrain Code'])
+			spreadTypes = [type["spread"] for type in tDetail["Terrain Textures"]] 
+			return render_template('game/core_view.html',charData=charData,mapData=mapData,terrData=tDetail,spreadTypes=spreadTypes)
+		if form.worldMap.data:
+			worldMap = bto.getFullMap(charData) #takes a character object, not a string	
+			return render_template('game/terrain/terrain_map.html',charData=charData,mapData=worldMap)
 	return render_template('game/userforms/loadlogin.html',form=form)
 
 @gameload.route('/game/loadedgame',methods=['GET','POST'])

@@ -1,7 +1,6 @@
 <script id="activity_map_boarder">
 //activity_map_boarder
 
-//screens to advance to next area
 
 function svgclick() {
 /*
@@ -153,7 +152,13 @@ objects are present
 		playerChar.transition().attr("cx", char_x).attr("cy", char_y);
 		playerChar.moveToFront()
                 char_tooltip.html(charData["name"] + "<br>" + "x: " + String(char_x) + " y: " + String(char_y));
-	}
+
+//the .js templates are only brought in if the 'monsters' section of the mapData contains monsters. 
+{% if 'm' in mapData['monsters'].keys() %}
+	{% include "game/monsters/core_monster.js" %}	
+{% endif %}
+
+}
 
 
 canvas.on("click", svgclick);
