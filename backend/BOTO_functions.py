@@ -69,6 +69,7 @@ def getAreaInfoFromMap(charData):
 	return mapData
 
 
+
 def addMonsters(mapData):
     '''
     takes mapData as DICT
@@ -76,6 +77,8 @@ def addMonsters(mapData):
     example:
     mapData['monsters'] = addMonsters(mapData) 
     '''
+    metaVariables = ["name","health","healthMaxVariance","move type","render type","size"]
+    individualVariables = ["name","move","size","color"]
     monsters = {}
     beastiary = getBeastiary()
     if mapData['area']['Danger Level'] < 1:
@@ -96,10 +99,15 @@ def addMonsters(mapData):
         else:
             #otherwise, the number of monsters is a random number between the min and the max.
             nMonsters = np.random.randint(creature['group min'],creature['group max'])
+    #metadata about the monsters is useful when they are rendered
+    monsters['meta'] = dict([i for i in beastiary[mapData['area']['creatures']].items() if i[0] in metaVariables])
     #a list of monsters is added that is nMonsters long
     m = []
     for i in range(nMonsters):
-        m.append(beastiary[mapData['area']['creatures']]) 
+        mi = dict([i for i in beastiary[mapData['area']['creatures']].items() if i[0] in individualVariables])
+        if (('health' in monsters['meta'].keys()) & ('healthMaxVariance' in monsters['meta'].keys())):
+            mi['health'] = monsters['meta']['health'] + np.random.randint(0, monsters['meta']['healthMaxVariance'])
+        m.append(mi) 
     monsters['m'] = m
     return monsters
 
