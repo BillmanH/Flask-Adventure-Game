@@ -2,41 +2,31 @@
 
 
 //tool tip should work for all terrain objects
-var terrain_tooltip = d3.select("body")
+var monster_tooltip = d3.select("body")
 	.append("div")
-	.attr("id", "terrain-info")                
+	.attr("id", "monster-info")                
 	.style("position", "absolute")
 	.style("z-index", "10")
 	.style("visibility", "hidden")
 	.html("<p>Default Text</p>");
 
 //spin through the list of big objects and create
-for (item in mapData['area']['Terrain Textures']){
-	t = mapData['area']['Terrain Textures'][item]  //loading the current terrain object to t to save text
-	//console.log("T= ",t)
+monstermeta = mapData['monsters']['meta];
+monstermeta['cord'] = get_rnd_coord()
 
-	
-	//take imput paramerter from t and create an array of data objets for D3. 
-	data = []
-	for (i=0;i<t['abundance'];i++) {
-		cord = get_rnd_coord()
-		t.spawnOrigin_x = cord[0]
-		t.spawnOrigin_y = cord[1]
+
+data = []
+for (i=0;i<mapData['monsters']['m'];i++) {
+		cord = Math.floor(Math.random() * 6) - 6
+		//TODO: changes in mapData["monsters"]["meta"]["render type"] should 
+		//take affect here.  
+		t.spawnOrigin_x = monstermeta['cord'][0] + cord
+		t.spawnOrigin_y = monstermeta['cord'][1] + cord
+		t.color = i.color
+		t.move = i.move
+		t.healt = i.health
+		t.size = i.size
 		data.push(JSON.parse(JSON.stringify(t)))
-	}
-	switch(t['spread']){
-		case "scatter":
-		{% if "scatter" in spreadTypes %}
-			{% include "game/terrain/scatter.js" %}	
-		{% endif %}
-		break;
-		case "line":
-		{% if "line" in spreadTypes %}
-			{% include "game/terrain/line.js" %} 
-		{% endif %}
-		break;
-		default:
-//Assumiming that if there is no spread type, just place it randomly, terrain['density'] is ignored
-	}
 }
+
 </script>
