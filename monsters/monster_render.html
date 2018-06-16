@@ -1,4 +1,4 @@
-
+<script>
 
 
 //tool tip should work for all terrain objects
@@ -11,7 +11,7 @@ var monster_tooltip = d3.select("body")
 	.html("<p>Default Text</p>");
 
 //spin through the list of big objects and create
-monstermeta = mapData['monsters']['meta];
+monstermeta = mapData['monsters']['meta'];
 monstermeta['cord'] = get_rnd_coord()
 
 
@@ -28,5 +28,6 @@ for (i=0;i<mapData['monsters']['m'];i++) {
 		t.size = i.size
 		data.push(JSON.parse(JSON.stringify(t)))
 }
+
 
 </script>

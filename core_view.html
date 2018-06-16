@@ -23,10 +23,15 @@
 	<!- Simple Objects and Core Functionality ->
 	
 	{% include "game/home_screen.html" %}
+
 	{% include "game/text_window.html" %}
 	{% include "game/activity_map_boarder.html" %}
 	
 	<!- Objects that have complex interaction ->
+	{% if 'm' in mapData['monsters'].keys() %}
+
+	{% include "game/monsters/monster_render.html" %}
+	{% endif %}	
 	
 	{% include "game/character.html" %}
 	{% include "game/terrain_textures.html" %}
