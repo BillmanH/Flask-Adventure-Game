@@ -1,6 +1,6 @@
 <script>
 
-
+console.log("Monster Render")
 //tool tip should work for all terrain objects
 var monster_tooltip = d3.select("body")
 	.append("div")
@@ -11,23 +11,41 @@ var monster_tooltip = d3.select("body")
 	.html("<p>Default Text</p>");
 
 //spin through the list of big objects and create
-monstermeta = mapData['monsters']['meta'];
-monstermeta['cord'] = get_rnd_coord()
+monstermeta = mapData['monsters']['meta']['cord'] = get_rnd_coord()
+
+//TODO: monster render types go here, I need to come back and add different spread types for monsters
 
 
 data = []
-for (i=0;i<mapData['monsters']['m'];i++) {
+for (var i=0;i < mapData['monsters']['m'].length;i++) {
 		cord = Math.floor(Math.random() * 6) - 6
 		//TODO: changes in mapData["monsters"]["meta"]["render type"] should 
 		//take affect here.  
-		t.spawnOrigin_x = monstermeta['cord'][0] + cord
-		t.spawnOrigin_y = monstermeta['cord'][1] + cord
-		t.color = i.color
-		t.move = i.move
-		t.healt = i.health
-		t.size = i.size
-		data.push(JSON.parse(JSON.stringify(t)))
+		mapData['monsters']['m'][i]['spawnOrigin_x'] = monstermeta[0] + cord
+		mapData['monsters']['m'][i]['spawnOrigin_y'] = monstermeta[1] + cord
 }
+
+var mons = canvas.selectAll(mapData['monsters']['meta']['name'])
+	.data(mapData['monsters']['m'])
+	.enter()
+	.append('circle')
+	.style('z-index',9)
+	.attr("cx",function(d){return d.spawnOrigin_x})
+	.attr("cy",function(d){return d.spawnOrigin_y})
+	.attr("r",function(d){return d.size})
+	.attr("id",function(d){return d.name})
+	.style("fill",function(d){return d.color})
+	.on("mouseover", function(d){
+		return monster_tooltip.style("visibility", "visible")
+			.html(d.name);
+		})
+	.on("mousemove", function(d){
+		return monster_tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
+			.html(d.name);
+		})
+	.on("mouseout", function(){
+		return monster_tooltip.style("visibility", "hidden");
+		});
 
 
 </script>
