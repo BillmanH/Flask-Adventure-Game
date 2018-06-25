@@ -21,8 +21,8 @@ for (var i=0;i < mapData['monsters']['m'].length;i++) {
 		cord = Math.floor(Math.random() * 6) - 6
 		//TODO: changes in mapData["monsters"]["meta"]["render type"] should 
 		//take affect here.  
-		mapData['monsters']['m'][i]['spawnOrigin_x'] = monstermeta[0] + cord
-		mapData['monsters']['m'][i]['spawnOrigin_y'] = monstermeta[1] + cord
+		mapData['monsters']['m'][i]['spawnOrigin_x'] = mapData['monsters']['meta']['cord'][0] + cord
+		mapData['monsters']['m'][i]['spawnOrigin_y'] = mapData['monsters']['meta']['cord'][1] + cord
 }
 
 var mons = canvas.selectAll(mapData['monsters']['meta']['name'])

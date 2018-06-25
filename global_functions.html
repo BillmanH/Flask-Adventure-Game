@@ -28,6 +28,26 @@ function get_pos_neg(x,y){
 	return [nx,ny]
 }
 
+function get_dist_to_char(x,y){
+	a = Math.abs(char_y-y)
+	b = Math.abs(char_x-x)
+
+	c2 = (a^2)+(b^2)
+	dist = Math.sqrt(c2)
+	return dist
+}
+
+function move_towards_char(x,y,s){
+	// produces new coordinates that are in the direction of the character, using the speed
+	
+	pn = get_pos_neg(x,y)
+
+	distRatio = (get_dist_to_char(x,y))/s
+ 	a = Math.abs(char_x-x)/distRatio
+	b = Math.abs(char_y-y)/distRatio
+
+	return [a*pn[0],b*pn[1]]
+}
 
 
 
