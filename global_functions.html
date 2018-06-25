@@ -23,21 +23,11 @@ d3.selection.prototype.moveToBack = function() {
 	}; 
 
 function get_pos_neg(x,y){
-	var nx = 0,
-	 ny=0;
-
-	if(x<0){
-		nx = -1
-	} else {
-		nx =  1
-	}
-	if(y<0){
-		ny = -1
-	} else {
-		ny = 1
-	}
+	nx = x/Math.abs(x)
+	ny = y/Math.abs(y)
 	return [nx,ny]
 }
+
 
 
 
