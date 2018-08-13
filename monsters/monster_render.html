@@ -34,6 +34,8 @@ var mons = canvas.selectAll(mapData['monsters']['meta']['name'])
 	.attr("cy",function(d){return d.spawnOrigin_y})
 	.attr("r",function(d){return d.size})
 	.attr("id",function(d){return d.name})
+	.attr("move", function(d){return d.move})
+	.classed("monster", true)
 	.style("fill",function(d){return d.color})
 	.on("mouseover", function(d){
 		return monster_tooltip.style("visibility", "visible")
