@@ -1,7 +1,9 @@
 <script id="activity_map_boarder">
-//activity_map_boarder
+/*activity_map_boarder
+This manages the user click function svgclick. The game is turn-based so the user's click is considered an action, and then all other objects react to that action.
 
 
+*/
 function svgclick() {
 /*
 for click events on the main canvas, not on individual objects. 
@@ -146,16 +148,18 @@ var boarderText = "to the *nextArea* you can see *description*;" +
 Each object that reacts to player movement must have an update statement here. This also means that this <script> must come at the end, after all of the other 
 objects are present
 */
-		var drc = terrain_interactions(prev_x,prev_y)
+		//terrain interactions happen before the character movement is relocated
+		var drc = terrain_interactions(prev_x,prev_y)//terrain_interactions takes the cacluated position change and checks for modifications due to objects
 		char_x = drc[0]
 		char_y = drc[1]
 		playerChar.transition().attr("cx", char_x).attr("cy", char_y);
-		playerChar.moveToFront()
+		playerChar.moveToFront()//ensure that character is always on top and not topped by other characters. 
                 char_tooltip.html(charData["name"] + "<br>" + "x: " + String(char_x) + " y: " + String(char_y));
 
 //the .js templates are only brought in if the 'monsters' section of the mapData contains monsters. 
 {% if 'm' in mapData['monsters'].keys() %}
 	{% include "game/monsters/core_monster.js" %}	
+
 {% endif %}
 
 }
