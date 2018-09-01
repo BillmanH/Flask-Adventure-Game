@@ -18,7 +18,9 @@ Individual opbjects should have thier own click handler.
 //moveRate is based on the speed and is modified by atributes:
 {% include "game/charModifiers/moveModifiers.js" %}
 
- 
+cmv = get_distance_vector(char_x,char_y,p.x,p.y,moveRate);
+console.log(cmv);
+
 //condition that recalculates char_x and char_y,  thus moving the character in a direction
 	var prev_x = char_x
 	var prev_y = char_y

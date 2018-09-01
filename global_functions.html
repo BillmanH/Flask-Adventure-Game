@@ -59,20 +59,17 @@ function get_distance_vector(Xa,Ya,Xb,Yb,speed){
 	return coord
 }
 
-function move_towards_char(x,y,s){
+function move_towards_obj(Xa,Ya,Xb,Yb,speed){
 	// produces new coordinates that are in the direction of the character, using the speed
+	// in this order (object that would like to move [x,y], then the object you would like to move towards [x,y]
 	// where x,y are the current coordinates of the object that you would like to move.
-
-	if (char_x - x < 0){
-		a = x - s
-	} else if(char_x - x > 0){
-		a = x + s
-	}
-	if (char_y - y < 0){
-		b = y - s
-	} else if(char_y - y > 0){
-		b = y + s
-	}
+	shift = get_distance_vector(Math.round(Xa),
+				Math.round(Ya),
+				Math.round(Xb),
+				Math.round(Yb),
+				speed)
+	a = Xa+shift[0]
+	b = Ya+shift[1]
 	return [a,b]
 }
 
