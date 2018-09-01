@@ -6,7 +6,17 @@ d3.selectAll(".monster")
 	.each(function(d,i) {
 		if(get_dist_to_char(d3.select(this).attr("cx"),d3.select(this).attr("cy"))<=15){ //TODO replace arbitrary value with monster's perception
 			objectAlerts("#character",d3.select(this).attr("id")+" Has spotted " + charData["name"]);
-			nmc = move_towards_char(d3.select(this).attr("cx"),d3.select(this).attr("cy"),d3.select(this).attr("move"))
+			nmc = move_towards_obj(Math.round(d3.select(this).attr("cx")),
+						Math.round(d3.select(this).attr("cy")),
+						char_x,
+						char_y,
+						d3.select(this).attr("move"));
+			console.log(
+			d3.select(this).attr("cx"),
+						d3.select(this).attr("cy"),
+						char_x,
+						char_y,
+						d3.select(this).attr("move"));
 			d3.select(this).transition()
 				.attr("cx",nmc[0])
 				.attr("cy",nmc[1])
