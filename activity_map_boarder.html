@@ -18,64 +18,15 @@ Individual opbjects should have thier own click handler.
 //moveRate is based on the speed and is modified by atributes:
 {% include "game/charModifiers/moveModifiers.js" %}
 
-cmv = get_distance_vector(char_x,char_y,p.x,p.y,moveRate);
+cmv = move_towards_obj(char_x,char_y,p.x,p.y,moveRate);
 console.log(cmv);
 
-//condition that recalculates char_x and char_y,  thus moving the character in a direction
-	var prev_x = char_x
-	var prev_y = char_y
-	if (p.x <= char_x  
-		&& Math.abs(p.x - char_x) > charData["size"] + 5 
-		&& p.y <= char_y
-        	&& Math.abs(p.y - char_y) > charData["size"] + 5)
-		 {
-		        char_x = char_x - moveRate
-		        char_y = char_y - moveRate
-		    }
-	else if (p.x <= char_x
- 		&& Math.abs(p.y - char_y) <= charData["size"] + 5) 
-		{
-			char_x = char_x - moveRate
-		} 
-	else if (p.x <= char_x
-		&& Math.abs(p.x - char_x) > charData["size"] + 5
-		&& p.y >= char_y 
-		&& Math.abs(p.y - char_y) > charData["size"] + 5) 
-		{
-		        char_x = char_x - moveRate
-		        char_y = char_y + moveRate
-		    }
-	else if (p.y >= char_y 						//down
-		&& Math.abs(p.x - char_x) <= charData["size"] + 5)
-		 {
-		        char_y = char_y + moveRate
-		    }
-	else if (p.x >= char_x 							//down and right
-		&& Math.abs(p.x - char_x) > charData["size"] + 5
-		&& p.y >= char_y
-		&& Math.abs(p.y - char_y) > charData["size"] + 5)
-		 {
-			char_x = char_x + moveRate
-		        char_y = char_y + moveRate
-		    } 
-	else if (p.x >= char_x //right
-		&& Math.abs(p.y - char_y) <= charData["size"] + 5)
-		 {
-		        char_x = char_x + moveRate
-		    }
-	else if (p.x >= char_x 							//up and right
-		&& Math.abs(p.x - char_x) > charData["size"] + 5
-		&& p.y <= char_y
-		&& Math.abs(p.y - char_y) > charData["size"] + 5)
-		 {
-			char_x = char_x + moveRate
-			char_y = char_y - moveRate
-		    } 
-	else if (p.y <= char_y						 //up
-		&& Math.abs(p.x - char_x) <= charData["size"] + 5)
-		 {
-			char_y = char_y - moveRate
-		    }
+var prev_x = char_x
+var prev_y = char_y
+
+char_x = cmv[0]
+char_y = cmv[1]
+
 
 var boarderText = "to the *nextArea* you can see *description*;" +
                                 "<form action='/gamecontinue' method='post' id='*nextForm*Form'>" +
