@@ -1,6 +1,10 @@
 <script id="main-svg">
 
-        var width = screen.width-200,
+var widthPadding = 200
+if(window.innerWidth <= 800){
+     widthPadding=15;
+   }
+        var width = screen.width-widthPadding,
 		height = window.innerHeight-100,
 		char_x = screen.width/2,
 		char_y = screen.height / 2;
