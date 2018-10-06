@@ -7,10 +7,16 @@
                 .style("z-index", "10")
                 .style("visibility", "hidden")
                 .html(charData["name"] + "<br>" 
-			+ "x: " + String(char_x) 
-			+ " y: " + String(char_y)
+			+ "Race: " + String(charData["race"]) + "<br>"
+			+ "Health: " + String(charData["health"]) + "<br>"
 			+ ""); //add extra eliments to be displayed to the char tooltip
 
+	function updateToolTip(charData){
+		h = charData["name"] + "<br>"
+		+ "Race: " + String(charData["race"]) + "<br>"
+		+ "Health: " + String(charData["health"]) + "<br>"
+		return h
+	}
         var inventory = canvas.append("rect")    
 		.attr("x", 10)
 		.attr("y", 10)                

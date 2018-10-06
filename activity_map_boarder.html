@@ -107,7 +107,7 @@ objects are present
 		char_y = drc[1]
 		playerChar.transition().attr("cx", char_x).attr("cy", char_y);
 		playerChar.moveToFront()//ensure that character is always on top and not topped by other characters. 
-                char_tooltip.html(charData["name"] + "<br>" + "x: " + String(char_x) + " y: " + String(char_y));
+                char_tooltip.html(updateToolTip(charData));
 
 //the .js templates are only brought in if the 'monsters' section of the mapData contains monsters. 
 {% if 'm' in mapData['monsters'].keys() %}
