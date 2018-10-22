@@ -13,22 +13,16 @@ function terrain_interactions(prev_x,prev_y){
 		var dy = y1 - prev_y
  
 		if (hyp < d3.select(this).attr("size")+charData["size"]) { //this is the collision event
-			console.log ("coord = [",x1,y1,"]; hyp =", hyp )
-			console.log (d3.select(this).attr("name"))
-			//console.log (d3.select(this).attr("affect"))	
 			switch (d3.select(this).attr("affect")) {
 				case "none":
 					break;
 				case "slow":
-					//console.log(d3.select(this).attr("affectText"))
 					charData["attributes"]["slowed"] = d3.select(this).attr("affectAmt")
 					objectAlerts("#character",d3.select(this).attr("affectText").replace("***",charData["name"]))
 					break;
 				case "bump":
 					var vol = d3.select(this).attr("affectAmt")
 				       	var dir = get_pos_neg(dx,dy)
-					//playerChar.transition().attr("cx", 100).attr("cy", 100);
-					//console.log("dir= ",dir)
 					objectAlerts("#character",d3.select(this).attr("affectText").replace("***",charData["name"]))
 					n_x = x1 + -1*(dir[0])*(vol+hyp)
 					n_y = y1 + -1*(dir[1])*(vol+hyp)

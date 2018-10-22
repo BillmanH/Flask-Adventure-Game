@@ -2,7 +2,8 @@
 /*
 Text for the botom of the screen
 */
-	textWindow = d3.select("body").append("div").attr("id","text-window").html("You are standing in " + mapData["area"]["Description"])
+
+	textWindow = d3.select("body").append("div").attr("id","text-window").html(charData["name"] + " is standing in " + mapData["area"]["Description"])
 
 	textWindow.append("div").attr("id", "northText").html("") 	
 	textWindow.append("div").attr("id", "eastText").html("")
