@@ -4,7 +4,7 @@
 
 d3.selectAll(".monster")
 	.each(function(d,i) {
-		if(get_dist_to_char(d3.select(this).attr("cx"),d3.select(this).attr("cy"))<=15){ //TODO replace arbitrary value with monster's perception
+		if(get_dist_to_char(d3.select(this).attr("cx"),d3.select(this).attr("cy"))<=mapData["monsters"]["meta"]["perception"]){
 			if (d3.select(this).classed("detectsPlayer")==false){
 				objectAlerts("#character",d3.select(this).attr("id")+" Has spotted " + charData["name"]);
 				d3.select(this).classed("detectsPlayer",true);
