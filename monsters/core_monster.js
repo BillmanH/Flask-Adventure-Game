@@ -8,13 +8,12 @@ d3.selectAll(".monster")
 		if(get_dist_to_char(d3.select(this).attr("cx"),d3.select(this).attr("cy"))<=mapData["monsters"]["meta"]["perception"]){
 			// detectsPlayer defaults to False
 			if (d3.select(this).classed("detectsPlayer")==false){
-				objectAlerts("#character",d3.select(this).attr("id")+" Has spotted " + charData["name"]);
+				objectAlerts("#"+d3.select(this).attr("id"),d3.select(this).attr("name")+" Has spotted " + charData["name"]);
 				d3.select(this).classed("detectsPlayer",true);
 			}
 			// if the character is close enough to attack, it attacks.
 			if(get_dist_to_char(d3.select(this).attr("cx"),d3.select(this).attr("cy"))<=charData["size"]){
-				// TODO : break the attack out to it's own function.
-				objectAlerts("#character",d3.select(this).attr("id")+" struck at the player ");
+				{% include "game/monsters/monster_attack.js" %}
 			}	
 			nmc = move_towards_obj(Math.round(d3.select(this).attr("cx")),
 						Math.round(d3.select(this).attr("cy")),
