@@ -27,7 +27,8 @@
 	<!- Objects that have complex interaction ->
 	{% if 'm' in mapData['monsters'].keys() %}
 
-	{% include "game/monsters/monster_render.html" %}
+		{% include "game/monsters/monster_render.html" %}
+	
 	{% endif %}	
 	
 	{% include "game/character.html" %}
