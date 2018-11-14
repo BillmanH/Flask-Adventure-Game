@@ -77,7 +77,8 @@ def addMonsters(mapData):
     example:
     mapData['monsters'] = addMonsters(mapData) 
     '''
-    metaVariables = ["name","health","healthMaxVariance","move type","render type","size","perception"]
+    metaVariables = ["name","health","healthMaxVariance","move type","render type","size","perception",
+                    "attackType","damage"]
     individualVariables = ["name","move","size","color"]
     monsters = {}
     beastiary = getBeastiary()
