@@ -77,8 +77,6 @@ def addMonsters(mapData):
     example:
     mapData['monsters'] = addMonsters(mapData) 
     '''
-    metaVariables = ["name","health","healthMaxVariance","move type","render type","size","perception",
-                    "attackType","damage"]
     individualVariables = ["name","move","size","color"]
     monsters = {}
     beastiary = getBeastiary()
@@ -87,6 +85,7 @@ def addMonsters(mapData):
         monsters['message'] = 'The area looks calm and peacefull.'
         return monsters
     creature = beastiary[mapData['area']['creatures']]
+    metaVariables = [k for k in list(creature.keys()) if k not in individualVariables]
     d10 = np.random.random(1)[0]
     if d10 > mapData['area']['Creature Probability']:
         #even if there is a danger in the area, that doesn't mean a monster will show.
