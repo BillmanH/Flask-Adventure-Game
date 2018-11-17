@@ -1,5 +1,5 @@
 <script id="character">
-       // main charater object
+// Tooltip, hover over character to see some stats
         var char_tooltip = d3.select("body")
                 .append("div")
 		.attr("id", "char-info")                
@@ -17,16 +17,8 @@
 		+ "Health: " + String(charData["health"]) + "<br>"
 		return h
 	}
-        var inventory = canvas.append("rect")    
-		.attr("x", 10)
-		.attr("y", 10)                
-		.attr("width", 10)
-		.attr("height", 10)
-		.attr("id", "inventory")                
-                .style("z-index", "10")
-                .style("visibility", "visible")
-		//.on("click", openInventory)
-	
+
+// if the character goes off to the east, then they show up on the west side of the next cell component.	
 	function alighnCharacter() {
 		if ("arriveFrom" in charData) {
 			if (charData["arriveFrom"] == "North"){
@@ -50,6 +42,7 @@
 		
 	alighnCharacter(); //if character came from somewhere, charData[arriveFrom] will reset the origin
 
+// main charater object
         var playerChar = canvas.append("circle" )
 		.attr("id", "character")
                 .attr("cx", char_x)
@@ -68,4 +61,11 @@
 					})
                 .on("click", function(){
 					});
+
+// What happens if the character dies
+function charDeath(){
+	playerChar.transform()
+		.attr("fill","red");
+	charData["speed"] = 0
+}
 </script>
