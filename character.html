@@ -67,5 +67,6 @@ function charDeath(){
 	playerChar.transition()
 		.attr("fill","red");
 	charData["speed"] = 0
+	d3.select("#text-window").html(charData["name"] + " has died!!")
 }
 </script>
