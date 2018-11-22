@@ -3,3 +3,5 @@ key_file
 *.swp
 *.swo
 
+#Visual Studio... whatever
+.vs/
