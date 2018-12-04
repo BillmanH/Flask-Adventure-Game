@@ -11,15 +11,25 @@ Text for the botom of the screen
 	textWindow.append("div").attr("id", "westText").html("")
 	textWindow.append("div").attr("id", "eventLog").html("")
 
+// change the direction of the objectAlert's message
+function switchDirection(t){
+	if(t==1){return [1,1]}
+	else if (t==2){return [1,-1]}
+	else if (t==3){return [-1,-1]}
+	else if (t==4){return [-1,1]}
+}
 
 //objectAlerts takes an object (like the char) and sends out a quick text
 //message for 
 function objectAlerts(subject,message){
+	noteDirection++;
+	if(noteDirection>4){noteDirection=1};
+	direct = switchDirection(noteDirection);
 	subj = d3.select(subject);
 	x = subj.attr("cx");
 	y = subj.attr("cy");
-	nx = (parseInt(x)+10).toString()
-	ny = (parseInt(y)+10).toString()
+	nx = (parseInt(x)+(20*direct[0])).toString()
+	ny = (parseInt(y)+(20*direct[1])).toString()
 	d3.select("body")
 		.append("div")
 		.style("z-index", "10")
