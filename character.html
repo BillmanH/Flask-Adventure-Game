@@ -68,5 +68,9 @@ function charDeath(){
 		.attr("fill","red");
 	charData["speed"] = 0
 	d3.select("#text-window").html(charData["name"] + " has died!!")
+	d3.select(".charDataHolder").attr("value",JSON.stringify(charData)) 
+	d3.select("#chardeath").style("visibility","visible")
+	d3.select(".maptravelform").style("visibility","hidden")
+	d3.select("#chardeathbutton").html(charData["name"] + " has died...")
 }
 </script>

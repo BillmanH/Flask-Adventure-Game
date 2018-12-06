@@ -28,8 +28,8 @@ function objectAlerts(subject,message){
 	subj = d3.select(subject);
 	x = subj.attr("cx");
 	y = subj.attr("cy");
-	nx = (parseInt(x)+(20*direct[0])).toString()
-	ny = (parseInt(y)+(20*direct[1])).toString()
+	nx = (parseInt(x)+(100*direct[0])).toString()
+	ny = (parseInt(y)+(100*direct[1])).toString()
 	d3.select("body")
 		.append("div")
 		.style("z-index", "10")

@@ -12,7 +12,7 @@ welcome = Blueprint('welcome',__name__, template_folder='templates')
 gameload = Blueprint('loadedgame',__name__, template_folder='templates')
 loadlogin = Blueprint('loadlogin',__name__, template_folder='templates')
 terrainmap = Blueprint('terrainmap',__name__, template_folder='templates')
-
+characterdeath = Blueprint('characterdeath',__name__, template_folder='templates')
 
 globalParams = {"GATrackingCode":"UA-51935864-1"}
 
@@ -24,7 +24,8 @@ GameRoutes = [
 	,createcharacter
 	,welcome
 	,gameload
-	,loadlogin]
+	,loadlogin
+	,characterdeath]
 
 @welcome.route('/game/welcome')
 def welcomeview():
@@ -148,8 +149,14 @@ def loadterrainmap():
 				mapData=worldMap,
 				globalParams=globalParams)
 
-
-
+@characterdeath.route('/chardeath',methods=['GET','Post'])
+def chardeath():
+	#TODO Create a log of dead characters
+	#Save the dead character's profile
+	charDataD = yaml.load(request.form['charData'])
+	charData = request.form['charData']
+	#bto.saveCharData(charData)
+	return str(charData)
 
 
 
