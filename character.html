@@ -73,4 +73,7 @@ function charDeath(){
 	d3.select(".maptravelform").style("visibility","hidden")
 	d3.select("#chardeathbutton").html(charData["name"] + " has died...")
 }
+
+{% include "game/charModifiers/charattack.js" %}
+
 </script>
