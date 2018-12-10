@@ -3,6 +3,7 @@ import boto
 import yaml
 import numpy as np
 import pandas as pd
+import datetime
 
 #conn = boto.connect_s3()
 
@@ -157,6 +158,11 @@ def saveCharData(cData):
 	if 'account info' in oldData.keys():
 		accountData = oldData.pop('account info') #removed info pertaining to the account for security
 		charData['account info'] = accountData
+	charData['dateModified'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+	if 'new' in charData['attributes']:
+		charData['dateCreated'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+		charData['equipment'] = [charData['starting weapon']]
+		charData['attributes'][charData['attributes'].index('new')] = 'started'
 	myKey.set_contents_from_string(str(charData))
 	return charData
 
