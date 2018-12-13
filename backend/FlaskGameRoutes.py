@@ -125,7 +125,7 @@ def startgamecontinue():
 	#Step one: Saving the character data from the last screen
 	charDataD = yaml.load(request.form['charData'])
 	charData = request.form['charData']
-	bto.saveCharData(charData)
+	charData = bto.saveCharData(charData)
 	#Step two: loading data for the next area 
 	mapData = bto.getAreaInfoFromMap(charDataD) #takes a character object, not a string
 	tDetail = bto.getTerrainDetails(mapData['area']['Terrain Code'])
