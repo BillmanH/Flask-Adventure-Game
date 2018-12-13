@@ -150,7 +150,7 @@ def getCharData(user,token="notoken"):
 	return data
 
 def saveCharData(cData):
-	charData = yaml.load(cData)
+	charData = cData
 	charID = charData["id"]
 	mybucket = conn.get_bucket('flaskgame')
 	myKey = mybucket.get_key("chars/" + charID + "charData.json")

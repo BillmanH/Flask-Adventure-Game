@@ -123,15 +123,14 @@ def startgameload():
 @gamecontinue.route('/gamecontinue', methods=['GET', 'POST'])
 def startgamecontinue():
 	#Step one: Saving the character data from the last screen
-	charDataD = yaml.load(request.form['charData'])
-	charData = request.form['charData']
+	charData = yaml.load(request.form['charData'])
 	charData = bto.saveCharData(charData)
 	#Step two: loading data for the next area 
-	mapData = bto.getAreaInfoFromMap(charDataD) #takes a character object, not a string
+	mapData = bto.getAreaInfoFromMap(charData) #takes a character object, not a string
 	tDetail = bto.getTerrainDetails(mapData['area']['Terrain Code'])
 	spreadTypes = [type["spread"] for type in tDetail["Terrain Textures"]]
 	return render_template('game/core_view.html',
-				charData=charDataD,
+				charData=charData,
 				mapData=mapData,
 				terrData=tDetail,
 				spreadTypes=spreadTypes,
