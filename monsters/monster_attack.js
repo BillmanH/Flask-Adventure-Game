@@ -12,6 +12,6 @@ charData["health"] = charData["health"]+damage
 if(charData["health"]<0){
 	objectAlerts("#character",charData["name"] + " has died")
 	charDeath()
-} else {charAttack()} //the character automatically attacks back if able
+} else {charattack(this)} //the character automatically attacks back if able
 
  

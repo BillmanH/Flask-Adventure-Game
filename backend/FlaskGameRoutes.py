@@ -152,8 +152,7 @@ def loadterrainmap():
 def chardeath():
 	#TODO Create a log of dead characters
 	#Save the dead character's profile
-	charDataD = yaml.load(request.form['charData'])
-	charData = request.form['charData']
+	charData = yaml.load(request.form['charData'])
 	#bto.saveCharData(charData)
 	return str(charData)
 
