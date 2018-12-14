@@ -28,8 +28,8 @@ function objectAlerts(subject,message){
 	subj = d3.select(subject);
 	x = subj.attr("cx");
 	y = subj.attr("cy");
-	nx = (parseInt(x)+(100*direct[0])).toString()
-	ny = (parseInt(y)+(100*direct[1])).toString()
+	nx = (parseInt(x)+(randBetween(50,150)*direct[0])).toString()
+	ny = (parseInt(y)+(randBetween(50,150)*direct[1])).toString()
 	var objectAlert = d3.select("body")
 		.append("div")
 		.style("z-index", "10")
@@ -42,7 +42,7 @@ function objectAlerts(subject,message){
 		.style("top", ny +"px").style("left",nx +"px")
 		.remove();
 	objectAlert.transition()
-		.duration(2500)
+		.duration(1500)
 		.style("opacity", 0)
 	
 }
