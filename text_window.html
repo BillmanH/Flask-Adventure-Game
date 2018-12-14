@@ -30,7 +30,7 @@ function objectAlerts(subject,message){
 	y = subj.attr("cy");
 	nx = (parseInt(x)+(100*direct[0])).toString()
 	ny = (parseInt(y)+(100*direct[1])).toString()
-	d3.select("body")
+	var objectAlert = d3.select("body")
 		.append("div")
 		.style("z-index", "10")
 		.style("position", "absolute")
@@ -39,10 +39,14 @@ function objectAlerts(subject,message){
 		.html(message)
 		.transition()
 		.duration(2500)
-		.style("opacity", 0)
 		.style("top", ny +"px").style("left",nx +"px")
 		.remove();
+	objectAlert.transition()
+		.duration(2500)
+		.style("opacity", 0)
+	
 }
+
 
 //basic functions text that loads when the user starts in an area
 </script>
