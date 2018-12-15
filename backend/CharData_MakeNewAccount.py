@@ -30,7 +30,6 @@ def saveNewCharacterData(formData):
 	charData['location'] = '2:2'
 	charData['attributes'] = ['new']
 	charData['dateCreated'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-	charData['equipment'] = [charData['starting weapon']]
 	#TODO character's starting location should be a function of the world size or something?
 	if checkIfAccountExists(charData['id']):
 		#TODO nothing happens if the account already exsits, I need a page for that
