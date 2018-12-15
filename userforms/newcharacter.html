@@ -32,14 +32,14 @@ function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 }
+// textwindow is the object that stores the text values (stats about what the race or detail grants
+textWindow = d3.select("body").append("div").attr("id","text-window").html("choose a race for your character and some of your starting attributes")
 
 function makeToken() {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
   for (var i = 0; i < 25; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
-
   return text;
 }
 
@@ -58,7 +58,6 @@ function checFormCompletion(formData) {
 		formData = Object.assign({},formData,raceData[formData["race"]],classData[formData["class"]])
 		formData['token'] = makeToken()
 		d3.select(".formData").attr("value",JSON.stringify(formData)) 
-		console.log(formData)
 		d3.select('#create').style('display','block')
 		return true
 		} else {return false}
@@ -68,13 +67,11 @@ var form = d3.select('#Name')
 	.on("click", function(b) {
 		document.getElementById("Name").setAttribute("value", "");
 	})
-	
 
 var form = d3.select('#EmailInput')
 	.on("click", function(b) {
 		document.getElementById("EmailInput").setAttribute("value", "");
 	})
-	
 
 var svg = d3.select('body').append('svg')
 	.attr('width', width)
@@ -86,7 +83,9 @@ var raceButtons = svg.selectAll('.raceButtons')
 	.enter()
 	.append('g')
  	.on("click", function(element){
-		formData['race'] = d3.select(this).select('text').text()
+		formData['race'] = d3.select(this).select('text').text();
+		var selected = raceData[d3.select(this).select('text').text()];
+		textWindow.html(JSON.stringify(selected));	
 		raceButtons.selectAll('rect')
 		.transition()
 		.style('fill','black');
@@ -123,6 +122,8 @@ var classButtons = svg.selectAll('.classButtons')
 	.append('g')
   	.on("click", function(element){
 		formData['class'] = d3.select(this).select('text').text()
+		var selected = classData[d3.select(this).select('text').text()];
+		textWindow.html(JSON.stringify(selected)); 
 		classButtons.selectAll('rect')
 		.transition()
 		.style('fill','black');
@@ -133,7 +134,6 @@ var classButtons = svg.selectAll('.classButtons')
 		.style('fill','blue');
 		checFormCompletion(formData)
 	})	
-
 
 classButtons.append('rect')
 	.attr('x', 250)
@@ -152,8 +152,6 @@ classButtons.append("text")
 	.attr("font-size", "19px")
 	.attr("fill", "black")
 	.attr("font-family","sans-serif")
-
-
 
 </script>
 </html>
