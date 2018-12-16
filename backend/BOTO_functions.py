@@ -161,7 +161,6 @@ def saveCharData(cData):
 	charData['dateModified'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 	if 'new' in charData['attributes']:
 		charData['dateCreated'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-		charData['equipment'] = [charData['starting weapon']]
 		charData['attributes'][charData['attributes'].index('new')] = 'started'
 	myKey.set_contents_from_string(str(charData))
 	return charData
