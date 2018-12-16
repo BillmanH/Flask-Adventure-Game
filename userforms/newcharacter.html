@@ -43,6 +43,7 @@ function makeToken() {
   return text;
 }
 
+//this function confirmes that all of the data is in order AND creates the charData Json.  FormData then becomes the charData that is to be saved. 
 function checFormCompletion(formData) {
 	formData['email']=document.getElementById("EmailInput").value
 	formData['name']=document.getElementById("Name").value
@@ -54,8 +55,10 @@ function checFormCompletion(formData) {
 		&(formData.name != "Name your character")
 		&(formData.name != "")
 		)
-		{
-		formData = Object.assign({},formData,raceData[formData["race"]],classData[formData["class"]])
+		{//once confirmed, race data and class data are given to that character
+		formData = Object.assign(formData,raceData[formData["race"]])
+		formData['startingClass'] = classData[formData["class"]];
+		delete formData["class"];
 		formData['token'] = makeToken()
 		d3.select(".formData").attr("value",JSON.stringify(formData)) 
 		d3.select('#create').style('display','block')
@@ -139,7 +142,7 @@ classButtons.append('rect')
 	.attr('x', 250)
 	.attr('y',function(d,i){return i*41})
 	.attr('height',40)
-	.attr('width',100)
+	.attr('width',200)
 	.style('fill','blue')
 	.attr('class', 'button')
 	
