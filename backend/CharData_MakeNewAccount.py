@@ -43,12 +43,12 @@ def saveNewCharacterData(formData):
 				    if charData['startingClass']['kind'] == 'equipment':
         				if 'equipment' not in charData.keys():
         	       		 		charData['equipment'] = []
-    				for item in charData['startingClass']:
-        				if item!='item':
-        	    				pass
-        				else:
-            					charData['equipment'] = charData['equipment'] + [charData['startingClass']['item']]
-    					charData['equipment'] = [charData['startingClass']['item']]
+ 	   				for item in charData['startingClass']:
+        					if item!='item':
+        		    				pass
+        					else:
+            						charData['equipment'] = charData['equipment'] + [charData['startingClass']['item']]
+    						charData['equipment'] = [charData['startingClass']['item']]
     				if charData['startingClass']['kind'] == 'attribute':
         				for change in charData['startingClass']['change']:
             					charData[list(change.keys())[0]] += list(change.values())[0]
