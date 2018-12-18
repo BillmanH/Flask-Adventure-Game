@@ -1,3 +1,45 @@
+
 <script>
 console.log(charData['equipment'])
+EQHeight = height/2
+WQWidth = width/2
+var EQCanvas = d3.select("body")
+		.append("svg")
+		.attr("width",WQWidth)
+		.attr("height",EQHeight)
+		.attr("id","eqwindow")
+		.attr("z-index","1")
+		.style("border", "1px solid black");
+
+
+var Equipment = EQCanvas.selectAll('.equipment')
+	.data(charData['equipment'])
+	.enter()
+	.append('g')
+ 	.on("click", function(element){
+		Equipment.selectAll('rect')
+		.transition()
+		.style('fill','black');
+		Equipment.selectAll('text')
+		.attr('fill','white');
+})
+
+Equipment.append('rect')
+	.attr('x', 0)
+	.attr('y',function(d,i){return i*41})
+	.attr('height',40)
+	.attr('width',150)
+	.style('fill','blue')
+	.attr('class', 'button')
+
+Equipment.append("text")
+	.text(function(d){
+		return d.name
+		})
+	.attr('x',5)
+	.attr('y',function(d,i){return i*42+20})
+	.attr("font-size", "19px")
+	.attr("fill", "black")
+	.attr("font-family","sans-serif")
+
 </script>

@@ -33,6 +33,11 @@
 	{% endif %}	
 	
 	{% include "game/character.html" %}
+
+	{% if 'equipment' in charData.keys() %}
+		{% include "game/charModifiers/charequipment.html" %}
+	{% endif %}
+
 	{% include "game/terrain_textures.html" %}
 	
 	<!- Scripts that govern interaction between objects->
