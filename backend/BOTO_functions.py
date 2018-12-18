@@ -150,6 +150,7 @@ def getCharData(user,token="notoken"):
 	return data
 
 def saveCharData(cData):
+	#NOTE : New character's first save have thier own function. This should be just for traveling saves.
 	charData = cData
 	charID = charData["id"]
 	mybucket = conn.get_bucket('flaskgame')
@@ -159,9 +160,6 @@ def saveCharData(cData):
 		accountData = oldData.pop('account info') #removed info pertaining to the account for security
 		charData['account info'] = accountData
 	charData['dateModified'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-	if 'new' in charData['attributes']:
-		charData['dateCreated'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-		charData['attributes'][charData['attributes'].index('new')] = 'started'
 	myKey.set_contents_from_string(str(charData))
 	return charData
 

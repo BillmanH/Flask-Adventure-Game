@@ -35,6 +35,27 @@ def saveNewCharacterData(formData):
 		#TODO nothing happens if the account already exsits, I need a page for that
 		return meta
 	else:
+		try:
+			if 'new' in charData['attributes']:
+				charData['dateCreated'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+				charData['attributes'][charData['attributes'].index('new')] = 'started'
+				if 'startingClass' in charData.keys():
+				    if charData['startingClass']['kind'] == 'equipment':
+        				if 'equipment' not in charData.keys():
+        	       		 		charData['equipment'] = []
+    				for item in charData['startingClass']:
+        				if item!='item':
+        	    				pass
+        				else:
+            					charData['equipment'] = charData['equipment'] + [charData['startingClass']['item']]
+    					charData['equipment'] = [charData['startingClass']['item']]
+    				if charData['startingClass']['kind'] == 'attribute':
+        				for change in charData['startingClass']['change']:
+            					charData[list(change.keys())[0]] += list(change.values())[0]
+				del charData['startingClass']
+		except Exception as e: 	
+			charData['error']="there was an issue processing class data: " + str(charData['startingClass'])
+			charData['exeption'] = str(e)
 		myKey = Key(mybucket)
 		myKey.key = "chars/" + charData['id'] + 'charData.json'
 		myKey.set_contents_from_string(str(charData))
