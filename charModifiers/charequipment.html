@@ -1,5 +1,11 @@
 
 <script>
+equipItem = function(d){
+	if(d.equipto=='hand'){
+		charData['equiped'] = d;
+	}
+}
+
 console.log(charData['equipment'])
 EQHeight = height/2
 WQWidth = width/2
@@ -22,6 +28,7 @@ var Equipment = EQCanvas.selectAll('.equipment')
 		.style('fill','black');
 		Equipment.selectAll('text')
 		.attr('fill','white');
+		equipItem(element)
 })
 
 Equipment.append('rect')
@@ -41,5 +48,19 @@ Equipment.append("text")
 	.attr("font-size", "19px")
 	.attr("fill", "black")
 	.attr("font-family","sans-serif")
+	
+if(charData['equiped']!=undefined){
+var Equiped = EQCanvas.selectAll('.equiped')
+	.data(charData['equiped'])
+	.enter()
+	.append('g');
 
+Equiped.append('rect')
+	.attr('x', 150)
+	.attr('y', function(d,i){return i*41})
+	.attr('height',40)
+	.attr('width',150)
+	.style('fill','blue')
+	.attr('class', 'button');
+}
 </script>
