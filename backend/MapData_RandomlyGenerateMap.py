@@ -1,12 +1,21 @@
 import pandas as pd
 import numpy as np
 import yaml
+from boto.s3.connection import S3Connection
+
+try:
+    conn = S3Connection()
+except:
+    #running visual studio on my desktop, keys are set up differently there. 
+    myKeys = yaml.load(open(r'C:\Users\willi\OneDrive\Documents\keyfile.txt', 'r'))
+    AWSSecretKey=myKeys['AWSSecretKey']
+    AWSAccessKeyId=myKeys['AWSAccessKeyId']
+    conn = S3Connection(AWSAccessKeyId, AWSSecretKey)
 
 params = {"worldSize":10}
 
 def get_terrain_detail():
-	from boto.s3.connection import S3Connection
-	conn = S3Connection()
+
 	mybucket = conn.get_bucket('flaskgame')
 	myKey = mybucket.get_key('terrain/terrain_details')
 	t_detail = yaml.load(myKey.get_contents_as_string())

@@ -7,7 +7,13 @@ import datetime
 
 #conn = boto.connect_s3()
 
-conn = S3Connection()
+try:
+    conn = S3Connection()
+except:
+    myKeys = yaml.load(open(r'C:\Users\willi\OneDrive\Documents\keyfile.txt', 'r'))
+    AWSSecretKey=myKeys['AWSSecretKey']
+    AWSAccessKeyId=myKeys['AWSAccessKeyId']
+    conn = S3Connection(AWSAccessKeyId, AWSSecretKey)
 
 def getFullMap(charData):
 	UserID = charData['id']

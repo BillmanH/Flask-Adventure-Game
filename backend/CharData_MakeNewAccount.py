@@ -6,7 +6,15 @@ import datetime
 
 import MapData_RandomlyGenerateMap as m
 
-conn = S3Connection()
+try:
+    conn = S3Connection()
+except:
+    #running visual studio on my desktop, keys are set up differently there. 
+    myKeys = yaml.load(open(r'C:\Users\willi\OneDrive\Documents\keyfile.txt', 'r'))
+    AWSSecretKey=myKeys['AWSSecretKey']
+    AWSAccessKeyId=myKeys['AWSAccessKeyId']
+    conn = S3Connection(AWSAccessKeyId, AWSSecretKey)
+
 mybucket = conn.get_bucket('flaskgame')
 
 
@@ -40,18 +48,18 @@ def saveNewCharacterData(formData):
 				charData['dateCreated'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 				charData['attributes'][charData['attributes'].index('new')] = 'started'
 				if 'startingClass' in charData.keys():
-				    if charData['startingClass']['kind'] == 'equipment':
-        				if 'equipment' not in charData.keys():
-        	       		 		charData['equipment'] = []
- 	   				for item in charData['startingClass']:
-        					if item!='item':
-        		    				pass
-        					else:
-            						charData['equipment'] = charData['equipment'] + [charData['startingClass']['item']]
-    						charData['equipment'] = [charData['startingClass']['item']]
-    				if charData['startingClass']['kind'] == 'attribute':
-        				for change in charData['startingClass']['change']:
-            					charData[list(change.keys())[0]] += list(change.values())[0]
+					if charData['startingClass']['kind'] == 'equipment':
+						if 'equipment' not in charData.keys():
+							charData['equipment'] = []
+					for item in charData['startingClass']:
+						if item!='item':
+							pass
+						else:
+							charData['equipment'] = charData['equipment'] + [charData['startingClass']['item']]
+						charData['equipment'] = [charData['startingClass']['item']]
+					if charData['startingClass']['kind'] == 'attribute':
+						for change in charData['startingClass']['change']:
+							charData[list(change.keys())[0]] += list(change.values())[0]
 				del charData['startingClass']
 		except Exception as e: 	
 			charData['error']="there was an issue processing class data: " + str(charData['startingClass'])
