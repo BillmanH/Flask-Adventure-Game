@@ -29,7 +29,7 @@ GameRoutes = [
 
 @welcome.route('/game/welcome')
 def welcomeview():
-	return render_template(r'\game\userforms\welcomeview.html',
+	return render_template(r'/game/userforms/welcomeview.html',
 				globalParams=globalParams)
 
 

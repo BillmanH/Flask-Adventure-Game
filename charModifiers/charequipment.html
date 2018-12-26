@@ -1,12 +1,16 @@
 
 <script>
 equipItem = function(d){
-	if(d.equipto=='hand'){
-		charData['equiped'] = d;
-	}
+	if(charData['equiped']==undefined){charData['equiped']={}}
+	if(charData['equiped'][d.equipto]==undefined){charData['equiped'][d.equipto]={}}
+		charData['equiped'][d.equipto] = d;
+    
+    d3.select('#EQ-' + d.name).selectAll('text').text(function (d) {
+		return d.name + " (" + d.equipto + ")"
+		})
 }
 
-console.log(charData['equipment'])
+
 EQHeight = height/2
 WQWidth = width/2
 var EQCanvas = d3.select("body")
@@ -21,7 +25,8 @@ var EQCanvas = d3.select("body")
 var Equipment = EQCanvas.selectAll('.equipment')
 	.data(charData['equipment'])
 	.enter()
-	.append('g')
+    .append('g')
+    .attr('id', function (d) {return 'EQ-' + d.name})
  	.on("click", function(element){
 		Equipment.selectAll('rect')
 		.transition()
@@ -35,7 +40,7 @@ Equipment.append('rect')
 	.attr('x', 0)
 	.attr('y',function(d,i){return i*41})
 	.attr('height',40)
-	.attr('width',150)
+	.attr('width',200)
 	.style('fill','blue')
 	.attr('class', 'button')
 
@@ -48,7 +53,7 @@ Equipment.append("text")
 	.attr("font-size", "19px")
 	.attr("fill", "black")
 	.attr("font-family","sans-serif")
-	
+
 if(charData['equiped']!=undefined){
 var Equiped = EQCanvas.selectAll('.equiped')
 	.data(charData['equiped'])
