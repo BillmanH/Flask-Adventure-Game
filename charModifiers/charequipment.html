@@ -1,25 +1,36 @@
 
 <script>
 equipItem = function(d){
-	if(charData['equiped']==undefined){charData['equiped']={}}
-	if(charData['equiped'][d.equipto]==undefined){charData['equiped'][d.equipto]={}}
 		charData['equiped'][d.equipto] = d;
-    
-    d3.select('#EQ-' + d.name).selectAll('text').text(function (d) {
+    d3.select('#EQ-' + d.name).selectAll('text')
+        .text(function (d) {
 		return d.name + " (" + d.equipto + ")"
-		})
+        }).attr('fill', 'white');
+    d3.select('#EQ-' + d.name).selectAll('rect')
+        .transition()
+        .style('fill', 'black');
+    }
+
+unequipItem = function(d){
+    charData['equiped'][d.equipto] = {};
+    d3.select('#EQ-' + d.name).selectAll('text').text(function (d) {
+    return d.name
+    }).attr('fill', 'black');
+    d3.select('#EQ-' + d.name).selectAll('rect')
+        .transition()
+        .style('fill', 'white');
 }
 
 
 EQHeight = height/2
 WQWidth = width/2
 var EQCanvas = d3.select("body")
-		.append("svg")
-		.attr("width",WQWidth)
-		.attr("height",EQHeight)
-		.attr("id","eqwindow")
-		.attr("z-index","1")
-		.style("border", "1px solid black");
+    .append("svg")
+    .attr("width",WQWidth)
+    .attr("height",EQHeight)
+    .attr("id","eqwindow")
+    .attr("z-index","1")
+    .style("border", "1px solid black");
 
 
 var Equipment = EQCanvas.selectAll('.equipment')
@@ -28,12 +39,14 @@ var Equipment = EQCanvas.selectAll('.equipment')
     .append('g')
     .attr('id', function (d) {return 'EQ-' + d.name})
  	.on("click", function(element){
-		Equipment.selectAll('rect')
-		.transition()
-		.style('fill','black');
-		Equipment.selectAll('text')
-		.attr('fill','white');
-		equipItem(element)
+        if (charData['equiped'] == undefined) { charData['equiped'] = {} }  //accomodate in case the character has never equipped anything
+        if (charData['equiped'][element.equipto] == undefined) { charData['equiped'][d.equipto] = {} }
+          if (charData['equiped'][element.equipto] == element) {  //unequip if equiped
+            unequipItem(element)
+        }
+          else if (charData['equiped'][element.equipto] != element) {  //equip if not equiped
+              equipItem(element)
+        }
 })
 
 Equipment.append('rect')
@@ -41,8 +54,11 @@ Equipment.append('rect')
 	.attr('y',function(d,i){return i*41})
 	.attr('height',40)
 	.attr('width',200)
-	.style('fill','blue')
-	.attr('class', 'button')
+	.style('fill','white')
+    .attr('class', 'button')
+    .style("stroke", 'black')
+    .style("stroke-width", 1);
+
 
 Equipment.append("text")
 	.text(function(d){
@@ -54,18 +70,14 @@ Equipment.append("text")
 	.attr("fill", "black")
 	.attr("font-family","sans-serif")
 
-if(charData['equiped']!=undefined){
-var Equiped = EQCanvas.selectAll('.equiped')
-	.data(charData['equiped'])
-	.enter()
-	.append('g');
-
-Equiped.append('rect')
-	.attr('x', 150)
-	.attr('y', function(d,i){return i*41})
-	.attr('height',40)
-	.attr('width',150)
-	.style('fill','blue')
-	.attr('class', 'button');
+    for (item in charData['equipment']) {
+        console.log(item)
+        if (charData['equiped'] != undefined && charData['equiped'][charData['equipment'][item].equipto] != undefined) {
+            
+            if (charData['equiped'][charData['equipment'][item].equipto].name == charData['equipment'][item].name) {
+            console.log('equiped ' + charData['equipment'][item].name)
+                equipItem(charData['equipment'][item])
+        }
+    }
 }
 </script>
