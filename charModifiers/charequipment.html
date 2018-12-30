@@ -1,5 +1,10 @@
 
 <script>
+    equipmentSVG_width = 200
+    equipmentSVG_length = 35
+    equipmentSVG_padding = 5
+
+
 equipItem = function(d){
 		charData['equiped'][d.equipto] = d;
     d3.select('#EQ-' + d.name).selectAll('text')
@@ -50,10 +55,10 @@ var Equipment = EQCanvas.selectAll('.equipment')
 })
 
 Equipment.append('rect')
-	.attr('x', 0)
-	.attr('y',function(d,i){return i*41})
-	.attr('height',40)
-	.attr('width',200)
+    .attr('x', equipmentSVG_padding)
+    .attr('y', function (d, i) { return i * equipmentSVG_length + equipmentSVG_padding})
+    .attr('height', equipmentSVG_length)
+    .attr('width', equipmentSVG_width)
 	.style('fill','white')
     .attr('class', 'button')
     .style("stroke", 'black')
@@ -64,8 +69,8 @@ Equipment.append("text")
 	.text(function(d){
 		return d.name
 		})
-	.attr('x',5)
-	.attr('y',function(d,i){return i*42+20})
+    .attr('x', equipmentSVG_padding*2)
+    .attr('y', function (d, i) { return i * equipmentSVG_length + 20 + equipmentSVG_padding})
 	.attr("font-size", "19px")
 	.attr("fill", "black")
 	.attr("font-family","sans-serif")
