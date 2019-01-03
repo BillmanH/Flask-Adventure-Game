@@ -42,15 +42,13 @@ function get_pos_neg(x,y){
 
 //calculate the distance to the character. 
 function get_dist_to_char(x,y){
-	a = Math.abs(char_y-y)
-	b = Math.abs(char_x-x)
+	var a = Math.abs(char_y-y)
+	var b = Math.abs(char_x-x)
 
-	c2 = (a^2)+(b^2)
-	dist = Math.sqrt(c2)
-	return dist
+	var c = Math.sqrt( a*a + b*b );
+	return c
 }
 
-//TODO:make SQRT function as ** is expensive
 function get_distance_vector(Xa,Ya,Xb,Yb,speed){
 	var d = [Xb-Xa,Yb-Ya]
 	mag_d = ((d[0]**2)+(d[1]**2))**(1/2)
