@@ -9,14 +9,15 @@ The main theme is to be extensible. All of the code is so compartmentalized that
  * Apache for serving
  * Flask for backend processing
  * D3.js for frontend
- * Jupyter Notebooks for design and development (and documentation)
+ * Jupyter Notebooks for design and development (and documentation) as well as managing the data.
  
 The creative part of the game is in designing attributes and objects within the game. I've designed this process to be managed in a spreadsheet:
- * [World features and objects](https://docs.google.com/spreadsheets/d/1E1y6QdK3IhzzoEjvlLrc81D0_3qJxtYZpoouhvit4RI/edit?usp=sharing)
+ * Parameters for terrain, terrain textures, monsters, character attributes and all other objects is stored in S3
+ * See the `notebooks` folder for more documentation on that process. 
 
 The game is currently located [here](http://williamjeffreyharding.com/game).
 
-The [front end of the game](https://github.com/BillmanH/Flask-Game-Front-End) is managed in Flask templates. This allows me to limit the amount of JavaScript that needs to be deployed. If an object requires some JS code in order to render or function, that script file is included in the template. 
+The __Front End__ is managed in Flask templates. This allows me to limit the amount of JavaScript that needs to be deployed. If an object requires some JS code in order to render or function, that script file is included in the template. You can see this in the `core view.html` of the template. 
 
 ## Terrain Parameters:
 Details of the terrain are stored separately to save space. This includes both the terrain texture objects AND the monsters. This way only the data for the current area given to the user. This keeps the application light. 
