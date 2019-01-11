@@ -7,21 +7,21 @@
 
 equipItem = function(d){
 		charData['equiped'][d.equipto] = d;
-    d3.select('#EQ-' + d.name).selectAll('text')
+    d3.select('#EQ-' + d.name.replace(/\s+/g, '-')).selectAll('text')
         .text(function (d) {
 		return d.name + " (" + d.equipto + ")"
         }).attr('fill', 'white');
-    d3.select('#EQ-' + d.name).selectAll('rect')
+    d3.select('#EQ-' + d.name.replace(/\s+/g, '-')).selectAll('rect')
         .transition()
         .style('fill', 'black');
     }
 
 unequipItem = function(d){
     charData['equiped'][d.equipto] = {};
-    d3.select('#EQ-' + d.name).selectAll('text').text(function (d) {
+    d3.select('#EQ-' + d.name.replace(/\s+/g, '-')).selectAll('text').text(function (d) {
     return d.name
     }).attr('fill', 'black');
-    d3.select('#EQ-' + d.name).selectAll('rect')
+    d3.select('#EQ-' + d.name.replace(/\s+/g, '-')).selectAll('rect')
         .transition()
         .style('fill', 'white');
 }
@@ -38,14 +38,16 @@ var EQCanvas = d3.select("body")
     .style("border", "1px solid black");
 
 
+test = undefined;
+
 var Equipment = EQCanvas.selectAll('.equipment')
 	.data(charData['equipment'])
 	.enter()
     .append('g')
-    .attr('id', function (d) {return 'EQ-' + d.name})
+    .attr('id', function (d) {return 'EQ-' + d.name.replace(/\s+/g, '-')})
  	.on("click", function(element){
         if (charData['equiped'] == undefined) { charData['equiped'] = {} }  //accomodate in case the character has never equipped anything
-        if (charData['equiped'][element.equipto] == undefined) { charData['equiped'][d.equipto] = {} }
+        if (charData['equiped'][element.equipto] == undefined) { charData['equiped'][element.equipto] = {} }
           if (charData['equiped'][element.equipto] == element) {  //unequip if equiped
             unequipItem(element)
         }
