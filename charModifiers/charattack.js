@@ -1,7 +1,6 @@
 function assign_damage_to_target(target,damage){
-	console.log(damage)
 	if(damage>0){damage=damage*-1} //damage should always be negative so that it subtracts from the target's health.
-	d3.select("#"+target.id).data()[0].health=d3.select("#"+target.id).data()[0].health+damage;
+		d3.select("#"+target.id).data()[0].health=d3.select("#"+target.id).data()[0].health+damage;
 	if (d3.select("#"+target.id).data()[0].health<=0){
 		monster_death(target);
 	}

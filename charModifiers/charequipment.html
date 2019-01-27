@@ -78,11 +78,9 @@ Equipment.append("text")
 	.attr("font-family","sans-serif")
 
     for (item in charData['equipment']) {
-        console.log(item)
         if (charData['equiped'] != undefined && charData['equiped'][charData['equipment'][item].equipto] != undefined) {
             
             if (charData['equiped'][charData['equipment'][item].equipto].name == charData['equipment'][item].name) {
-            console.log('equiped ' + charData['equipment'][item].name)
                 equipItem(charData['equipment'][item])
         }
     }
