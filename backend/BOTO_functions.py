@@ -94,6 +94,7 @@ def addMonsters(mapData):
     creature = beastiary[mapData['area']['creatures']]
     metaVariables = [k for k in list(creature.keys()) if k not in individualVariables]
     d10 = np.random.random(1)[0]
+    d10 = 0 #pushing d10 to 100% in order to test monsters
     if d10 > mapData['area']['Creature Probability']:
         #even if there is a danger in the area, that doesn't mean a monster will show.
         monsters['message'] = 'The area looks calm and peacefull.'
