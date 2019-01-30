@@ -1,12 +1,14 @@
 function assign_damage_to_target(target,damage){
+	console.log("assign_damage_to_target",target.id)
 	if(damage>0){damage=damage*-1} //damage should always be negative so that it subtracts from the target's health.
 		d3.select("#"+target.id).data()[0].health=d3.select("#"+target.id).data()[0].health+damage;
 	if (d3.select("#"+target.id).data()[0].health<=0){
-		monster_death(target);
+		{% include "game/monsters/monster_death.js" %}
 	}
 }
 
 function charattack(target){
+	console.log("charattack",target.id)
 	var attacksWith = 'fists' // if no weapon, the character defends with fists
 	var charDamage = [1,2]  //default damage is 1-2
 	var charColor = "#0000ff"  //color of the message that the character recieves
