@@ -1,4 +1,4 @@
-** this version has been archived ** I've migrated to a newer Django version of this game here. 
+**this version has been archived** I've migrated to a newer Django version of this game here. 
 
 # Flask-Game
 One of my private dev goals for 2017 is to build an entire RPG game. To make it an especailly interesting challenge, ALL of the code was either built out of a Jupyter Notebook or VIM. From scratch, line by line.
