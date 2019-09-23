@@ -1,3 +1,5 @@
+** this version has been archived ** I've migrated to a newer Django version of this game here. 
+
 # Flask-Game
 One of my private dev goals for 2017 is to build an entire RPG game. To make it an especailly interesting challenge, ALL of the code was either built out of a Jupyter Notebook or VIM. From scratch, line by line.
 
@@ -15,7 +17,6 @@ The creative part of the game is in designing attributes and objects within the 
  * Parameters for terrain, terrain textures, monsters, character attributes and all other objects is stored in S3
  * See the `notebooks` folder for more documentation on that process. 
 
-The game is currently located [here](http://williamjeffreyharding.com/game).
 
 The __Front End__ is managed in Flask templates. This allows me to limit the amount of JavaScript that needs to be deployed. If an object requires some JS code in order to render or function, that script file is included in the template. You can see this in the `core view.html` of the template. 
 
